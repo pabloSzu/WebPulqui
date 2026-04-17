@@ -1,5 +1,6 @@
 import { Navigation } from "@/components/navigation"
 import { Hero } from "@/components/hero"
+import { MarqueeStrip } from "@/components/marquee-strip"
 import { EventsSection } from "@/components/events-section"
 import { CalendarSection } from "@/components/calendar-section"
 import { SpaceSection } from "@/components/space-section"
@@ -15,6 +16,7 @@ export default function Home() {
       <Navigation />
       <main>
         <Hero />
+        <MarqueeStrip />
         <EventsSection />
         <CalendarSection />
         <SpaceSection />

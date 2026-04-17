@@ -101,6 +101,11 @@
   to   { transform: translateX(-50%); }
 }
 
+@keyframes marquee-fast {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
 .marquee-track {
   display: flex;
   width: max-content;
@@ -111,9 +116,16 @@
   animation-play-state: paused;
 }
 
+.marquee-track-fast {
+  display: flex;
+  width: max-content;
+  animation: marquee-fast 18s linear infinite;
+}
+
 /* ─── Scrollbar ──────────────────────────────────────────────── */
+/* scroll-behavior: smooth is handled by Lenis — no CSS override needed */
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 ::-webkit-scrollbar {

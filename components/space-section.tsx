@@ -2,6 +2,7 @@
 
 import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
+import Image from "next/image"
 
 const stats = [
   { number: "2019", label: "Año de apertura" },
@@ -15,6 +16,25 @@ const features = [
   { title: "GALERÍA",    body: "Muestra de arte en rotación permanente. Siempre hay algo nuevo colgado en las paredes." },
   { title: "BARRA",      body: "12 canillas. Producción propia + cervezas invitadas de toda la región." },
   { title: "PATIO",      body: "Espacio exterior para respirar entre show y show. Ampliado en temporada de verano." },
+]
+
+const spaceImages = [
+  {
+    src: "https://images.unsplash.com/photo-1574068472323-03a5d59e27fa?w=800&q=80&auto=format&fit=crop",
+    label: "LA BARRA",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&q=80&auto=format&fit=crop",
+    label: "EL ESCENARIO",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=800&q=80&auto=format&fit=crop",
+    label: "LA GALERÍA",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1551918120-9739cb430c6d?w=800&q=80&auto=format&fit=crop",
+    label: "EL PATIO",
+  },
 ]
 
 export function SpaceSection() {
@@ -70,6 +90,48 @@ export function SpaceSection() {
           ))}
         </div>
 
+        {/* ── Image strip ────────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.5 }}
+          className="flex overflow-x-auto hide-scrollbar -mx-6 md:mx-0 mb-px"
+        >
+          {spaceImages.map((img, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.4 + i * 0.1 }}
+              className="relative flex-shrink-0 w-[70vw] sm:w-[45vw] md:flex-1 overflow-hidden group"
+              style={{ height: "clamp(220px, 35vw, 420px)" }}
+            >
+              <Image
+                src={img.src}
+                alt={img.label}
+                fill
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                sizes="(max-width: 768px) 70vw, 25vw"
+              />
+              {/* Dark overlay — lightens on hover */}
+              <div className="absolute inset-0 bg-void/65 group-hover:bg-void/35 transition-colors duration-500" />
+
+              {/* Top-left ember line */}
+              <div className="absolute top-0 left-0 w-0 h-[2px] bg-ember group-hover:w-full transition-all duration-500" />
+
+              {/* Label */}
+              <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-2 group-hover:translate-y-0 opacity-70 group-hover:opacity-100 transition-all duration-400">
+                <p
+                  className="text-chalk tracking-wider"
+                  style={{ fontFamily: "var(--font-bebas)", fontSize: "1.1rem" }}
+                >
+                  {img.label}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
         {/* ── Features grid ──────────────────────────────────── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-steel mb-px">
           {features.map((f, i) => (
@@ -77,7 +139,7 @@ export function SpaceSection() {
               key={i}
               initial={{ opacity: 0, y: 16 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.4 + i * 0.08 }}
+              transition={{ delay: 0.55 + i * 0.08 }}
               className="bg-smoke p-8 group hover:bg-void transition-colors duration-300"
             >
               <div className="w-6 h-px bg-ember mb-5 group-hover:w-10 transition-all duration-300" />
@@ -101,7 +163,7 @@ export function SpaceSection() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.75 }}
+          transition={{ delay: 0.85 }}
           className="bg-smoke border-t-2 border-ember p-8 flex flex-col sm:flex-row justify-between gap-6"
         >
           <div>
