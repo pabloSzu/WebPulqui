@@ -78,6 +78,7 @@ export function SpaceSection() {
           ))}
         </div>
 
+
         {/* ── Image strip ────────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -101,18 +102,10 @@ export function SpaceSection() {
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 sizes="(max-width: 768px) 70vw, 25vw"
               />
-              {/* Dark overlay — lightens on hover */}
               <div className="absolute inset-0 bg-void/65 group-hover:bg-void/35 transition-colors duration-500" />
-
-              {/* Top-left ember line */}
               <div className="absolute top-0 left-0 w-0 h-0.5 bg-ember group-hover:w-full transition-all duration-500" />
-
-              {/* Label */}
-              <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-2 group-hover:translate-y-0 opacity-70 group-hover:opacity-100 transition-all duration-400">
-                <p
-                  className="text-chalk tracking-wider"
-                  style={{ fontFamily: "var(--font-bebas)", fontSize: "1.1rem" }}
-                >
+              <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-2 group-hover:translate-y-0 opacity-70 group-hover:opacity-100 transition-all duration-300">
+                <p className="text-chalk tracking-wider" style={{ fontFamily: "var(--font-bebas)", fontSize: "1.1rem" }}>
                   {img.label}
                 </p>
               </div>
