@@ -1,170 +1,177 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Calendar, Clock, Music, Mic2, Palette, Users } from "lucide-react"
-import { useState } from "react"
+import { useRef } from "react"
+import { motion, useInView } from "framer-motion"
+import { Clock, Music, Laugh, Palette, GlassWater, CalendarDays } from "lucide-react"
 
-const upcomingEvents = [
+const events = [
   {
-    id: 1,
-    title: "Jazz & Blues Night",
-    date: "Viernes 18 de Abril",
-    time: "21:00 hs",
-    type: "Música en Vivo",
-    icon: Music,
-    description: "Una noche íntima con los mejores sonidos de jazz y blues de la escena local.",
-    image: "/event-jazz.jpg",
+    id: "01",
+    date: { day: "18", month: "ABR" },
+    title: "JAZZ & BLUES NIGHT",
+    description: "Banda invitada: Los Nocturnos",
+    time: "21:00",
+    category: "MÚSICA",
+    Icon: Music,
   },
   {
-    id: 2,
-    title: "Stand Up Comedy",
-    date: "Sábado 19 de Abril",
-    time: "22:00 hs",
-    type: "Comedia",
-    icon: Mic2,
-    description: "Los mejores comediantes de Córdoba en una noche de risas y cerveza.",
-    image: "/event-comedy.jpg",
+    id: "02",
+    date: { day: "19", month: "ABR" },
+    title: "STAND UP COMEDY",
+    description: "Noche de humor con artistas locales",
+    time: "22:00",
+    category: "COMEDIA",
+    Icon: Laugh,
   },
   {
-    id: 3,
-    title: "Expo Arte Emergente",
-    date: "Jueves 24 de Abril",
-    time: "19:00 hs",
-    type: "Arte",
-    icon: Palette,
-    description: "Muestra colectiva de artistas visuales emergentes de la provincia.",
-    image: "/event-art.jpg",
+    id: "03",
+    date: { day: "24", month: "ABR" },
+    title: "EXPO ARTE EMERGENTE",
+    description: "Inauguración con artistas de Córdoba",
+    time: "19:00",
+    category: "ARTE",
+    Icon: Palette,
   },
   {
-    id: 4,
-    title: "Cata de Cervezas",
-    date: "Domingo 27 de Abril",
-    time: "18:00 hs",
-    type: "Degustación",
-    icon: Users,
-    description: "Descubrí los secretos de nuestras cervezas con el maestro cervecero.",
-    image: "/event-tasting.jpg",
+    id: "04",
+    date: { day: "27", month: "ABR" },
+    title: "CATA DE CERVEZAS",
+    description: "Guiada por nuestros maestros cerveceros",
+    time: "18:00",
+    category: "DEGUSTACIÓN",
+    Icon: GlassWater,
   },
 ]
 
-const eventTypes = ["Todos", "Música en Vivo", "Comedia", "Arte", "Degustación"]
-
 export function EventsSection() {
-  const [filter, setFilter] = useState("Todos")
-
-  const filteredEvents = filter === "Todos" 
-    ? upcomingEvents 
-    : upcomingEvents.filter(e => e.type === filter)
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
 
   return (
-    <section id="eventos" className="py-24 md:py-32 bg-background relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-charcoal/50 to-transparent pointer-events-none" />
-      
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <span className="text-amber text-sm tracking-[0.3em] uppercase mb-4 block">
-            Próximos Eventos
-          </span>
-          <h2 className="font-display text-5xl md:text-7xl text-foreground tracking-wider mb-6">
-            AGENDA
-          </h2>
-          <p className="text-foreground/60 max-w-2xl mx-auto text-lg">
-            Música, arte, comedia y más. Descubrí todo lo que tenemos preparado para vos.
-          </p>
-        </motion.div>
+    <section id="agenda" ref={ref} className="py-24 md:py-32 bg-void">
+      <div className="max-w-5xl mx-auto px-6 md:px-12">
 
-        {/* Filter Tabs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-3 mb-12"
-        >
-          {eventTypes.map((type) => (
-            <button
-              key={type}
-              onClick={() => setFilter(type)}
-              className={`px-5 py-2 text-sm tracking-wide transition-all ${
-                filter === type
-                  ? "bg-amber text-background"
-                  : "border border-foreground/20 text-foreground/70 hover:border-amber hover:text-amber"
-              }`}
+        {/* ── Section header ─────────────────────────────────── */}
+        <div className="flex items-end justify-between mb-14 pb-5 border-b border-steel">
+          <div>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : {}}
+              transition={{ duration: 0.5 }}
+              className="section-eyebrow mb-1"
             >
-              {type.toUpperCase()}
-            </button>
-          ))}
-        </motion.div>
-
-        {/* Events Grid */}
-        <div className="grid md:grid-cols-2 gap-6">
-          {filteredEvents.map((event, index) => (
-            <motion.article
-              key={event.id}
+              — 01 —
+            </motion.p>
+            <motion.h2
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="group relative bg-charcoal border border-foreground/10 hover:border-amber/40 transition-all duration-300 overflow-hidden"
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="section-heading text-[15vw] md:text-[7rem] lg:text-[8.5rem]"
             >
-              <div className="flex flex-col sm:flex-row">
-                {/* Event Image */}
-                <div className="sm:w-1/3 h-48 sm:h-auto bg-gradient-to-br from-amber/20 to-rust/20 relative overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <event.icon className="w-16 h-16 text-amber/40 group-hover:scale-110 transition-transform duration-300" />
+              AGENDA
+            </motion.h2>
+          </div>
+
+          <motion.a
+            href="#calendario"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.4 }}
+            className="hidden md:flex items-center gap-2 text-dust hover:text-ember transition-colors mb-3"
+            style={{ fontFamily: "var(--font-space-mono)", fontSize: "11px", letterSpacing: "0.25em" }}
+          >
+            <CalendarDays size={13} />
+            VER CALENDARIO
+          </motion.a>
+        </div>
+
+        {/* ── Events list ────────────────────────────────────── */}
+        <div className="divide-y divide-steel">
+          {events.map((event, i) => {
+            const { Icon } = event
+            return (
+              <motion.div
+                key={event.id}
+                initial={{ opacity: 0, y: 16 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.2 + i * 0.1 }}
+                className="group flex items-center gap-5 md:gap-10 py-6 md:py-7 hover:bg-smoke/60 -mx-4 px-4 transition-colors duration-300"
+              >
+                {/* Row number */}
+                <span
+                  className="text-dust/35 w-7 shrink-0 hidden sm:block"
+                  style={{ fontFamily: "var(--font-space-mono)", fontSize: "10px", letterSpacing: "0.15em" }}
+                >
+                  {event.id}
+                </span>
+
+                {/* Date */}
+                <div className="shrink-0 w-12 md:w-16 text-center">
+                  <div
+                    className="text-chalk group-hover:text-ember transition-colors duration-300 leading-none"
+                    style={{ fontFamily: "var(--font-bebas)", fontSize: "clamp(1.8rem, 4vw, 2.5rem)" }}
+                  >
+                    {event.date.day}
+                  </div>
+                  <div
+                    className="text-dust mt-0.5"
+                    style={{ fontFamily: "var(--font-space-mono)", fontSize: "9px", letterSpacing: "0.15em" }}
+                  >
+                    {event.date.month}
                   </div>
                 </div>
 
-                {/* Event Details */}
-                <div className="sm:w-2/3 p-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="text-xs tracking-wider text-amber bg-amber/10 px-3 py-1">
-                      {event.type.toUpperCase()}
-                    </span>
-                  </div>
-                  
-                  <h3 className="font-display text-2xl text-foreground mb-3 group-hover:text-amber transition-colors">
+                {/* Vertical divider */}
+                <div className="w-px h-10 bg-steel shrink-0" />
+
+                {/* Title + description */}
+                <div className="flex-1 min-w-0">
+                  <h3
+                    className="text-chalk group-hover:text-ember transition-colors duration-300 leading-none truncate"
+                    style={{ fontFamily: "var(--font-bebas)", fontSize: "clamp(1.3rem, 3.5vw, 2rem)", letterSpacing: "0.04em" }}
+                  >
                     {event.title}
                   </h3>
-                  
-                  <p className="text-foreground/60 text-sm mb-4 leading-relaxed">
+                  <p
+                    className="text-dust mt-1.5 truncate"
+                    style={{ fontFamily: "var(--font-space-mono)", fontSize: "10px", letterSpacing: "0.1em" }}
+                  >
                     {event.description}
                   </p>
-                  
-                  <div className="flex items-center gap-6 text-sm text-foreground/50">
-                    <span className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4" />
-                      {event.date}
-                    </span>
-                    <span className="flex items-center gap-2">
-                      <Clock className="w-4 h-4" />
+                </div>
+
+                {/* Time + category */}
+                <div className="shrink-0 text-right hidden sm:block">
+                  <div className="flex items-center gap-1.5 justify-end">
+                    <Clock size={10} className="text-dust" />
+                    <span
+                      className="text-dust"
+                      style={{ fontFamily: "var(--font-space-mono)", fontSize: "11px" }}
+                    >
                       {event.time}
                     </span>
                   </div>
+                  <div className="mt-2">
+                    <span
+                      className="text-ember border border-ember/30 px-2 py-0.5"
+                      style={{ fontFamily: "var(--font-space-mono)", fontSize: "9px", letterSpacing: "0.2em" }}
+                    >
+                      {event.category}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </motion.article>
-          ))}
+
+                {/* Decorative icon */}
+                <Icon
+                  size={16}
+                  strokeWidth={1.5}
+                  className="text-steel group-hover:text-ember/50 transition-colors duration-300 shrink-0 hidden lg:block"
+                />
+              </motion.div>
+            )
+          })}
         </div>
 
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mt-12"
-        >
-          <a
-            href="#contacto"
-            className="inline-block px-8 py-4 border border-amber text-amber font-semibold tracking-wide hover:bg-amber hover:text-background transition-colors"
-          >
-            RESERVAR PARA UN EVENTO
-          </a>
-        </motion.div>
       </div>
     </section>
   )

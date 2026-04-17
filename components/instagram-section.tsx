@@ -1,88 +1,106 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Instagram, Music, Beer, Palette, Mic2, Users, Sparkles } from "lucide-react"
+import { useRef } from "react"
+import { motion, useInView } from "framer-motion"
+import { Instagram, Music, Beer, Palette, Mic2, Users, Camera } from "lucide-react"
 
-const instagramPosts = [
-  { id: 1, icon: Music, type: "Evento", color: "from-amber/30 to-rust/30" },
-  { id: 2, icon: Beer, type: "Cerveza", color: "from-yellow-500/20 to-amber/20" },
-  { id: 3, icon: Palette, type: "Arte", color: "from-rust/30 to-red-800/30" },
-  { id: 4, icon: Mic2, type: "Comedia", color: "from-amber/20 to-yellow-600/20" },
-  { id: 5, icon: Users, type: "Comunidad", color: "from-charcoal to-background" },
-  { id: 6, icon: Sparkles, type: "Momentos", color: "from-amber/40 to-rust/20" },
+const posts = [
+  { label: "Eventos", Icon: Music },
+  { label: "Cervezas", Icon: Beer },
+  { label: "Arte", Icon: Palette },
+  { label: "Shows", Icon: Mic2 },
+  { label: "Comunidad", Icon: Users },
+  { label: "Momentos", Icon: Camera },
 ]
 
 export function InstagramSection() {
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
+
   return (
-    <section className="py-24 md:py-32 bg-charcoal">
-      <div className="max-w-7xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <span className="text-amber text-sm tracking-[0.3em] uppercase mb-4 block">
-            Seguinos
-          </span>
-          <h2 className="font-display text-4xl md:text-5xl text-foreground tracking-wider mb-4">
-            @PULQUI.BAR
-          </h2>
-          <p className="text-foreground/60 max-w-lg mx-auto">
-            Unite a nuestra comunidad. Compartimos momentos, anunciamos eventos y mostramos lo que pasa detrás de escena.
-          </p>
-        </motion.div>
+    <section ref={ref} className="py-24 md:py-32 bg-smoke">
+      <div className="max-w-5xl mx-auto px-6 md:px-12">
 
-        {/* Instagram Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2"
-        >
-          {instagramPosts.map((post, index) => (
-            <motion.a
-              key={post.id}
-              href="https://instagram.com/pulqui.bar"
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.05 }}
-              whileHover={{ scale: 1.05 }}
-              className={`aspect-square bg-gradient-to-br ${post.color} relative group overflow-hidden`}
-            >
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <post.icon className="w-8 h-8 text-foreground/30 group-hover:text-amber transition-colors" />
-                <span className="text-xs text-foreground/30 mt-2 group-hover:text-amber transition-colors">
-                  {post.type}
+        {/* ── Header ─────────────────────────────────────────── */}
+        <div className="border-b border-steel pb-5 mb-14">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            className="section-eyebrow mb-1"
+          >
+            — 06 —
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="section-heading text-[15vw] md:text-[7rem] lg:text-[8.5rem]"
+          >
+            INSTAGRAM
+          </motion.h2>
+        </div>
+
+        {/* ── Grid ───────────────────────────────────────────── */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-px bg-steel mb-8">
+          {posts.map((post, i) => {
+            const { Icon } = post
+            return (
+              <motion.a
+                key={i}
+                href="https://www.instagram.com/pulqui.industriacultural/"
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0 }}
+                animate={isInView ? { opacity: 1 } : {}}
+                transition={{ delay: 0.2 + i * 0.07 }}
+                className="aspect-square bg-void group flex flex-col items-center justify-center gap-3 hover:bg-ember/10 transition-colors duration-300 relative overflow-hidden"
+              >
+                <Icon
+                  size={28}
+                  strokeWidth={1}
+                  className="text-steel group-hover:text-ember transition-colors duration-300"
+                />
+                <span
+                  className="text-dust group-hover:text-chalk transition-colors duration-300"
+                  style={{ fontFamily: "var(--font-space-mono)", fontSize: "9px", letterSpacing: "0.2em" }}
+                >
+                  {post.label.toUpperCase()}
                 </span>
-              </div>
-              <div className="absolute inset-0 bg-amber/0 group-hover:bg-amber/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-                <Instagram className="w-8 h-8 text-foreground" />
-              </div>
-            </motion.a>
-          ))}
-        </motion.div>
+                {/* Hover overlay */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <Instagram size={22} strokeWidth={1.5} className="text-ember" />
+                </div>
+              </motion.a>
+            )
+          })}
+        </div>
 
-        {/* CTA */}
+        {/* ── CTA ────────────────────────────────────────────── */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mt-10"
+          initial={{ opacity: 0, y: 12 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.7 }}
+          className="flex flex-col sm:flex-row items-center justify-between gap-4 border border-steel p-6"
         >
+          <div className="flex items-center gap-3">
+            <Instagram size={18} strokeWidth={1.5} className="text-ember" />
+            <span
+              className="text-chalk"
+              style={{ fontFamily: "var(--font-space-mono)", fontSize: "12px", letterSpacing: "0.1em" }}
+            >
+              @pulqui.industriacultural
+            </span>
+          </div>
           <a
-            href="https://instagram.com/pulqui.bar"
+            href="https://www.instagram.com/pulqui.industriacultural/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-8 py-4 border border-amber text-amber font-semibold tracking-wide hover:bg-amber hover:text-background transition-colors"
+            className="btn-ember"
           >
-            <Instagram className="w-5 h-5" />
-            SEGUIR EN INSTAGRAM
+            <span>SEGUIR EN INSTAGRAM</span>
           </a>
         </motion.div>
+
       </div>
     </section>
   )

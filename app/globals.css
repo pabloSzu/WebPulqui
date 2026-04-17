@@ -4,39 +4,42 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* PULQUI Dark Theme - Always dark */
-  --background: #0a0a0a;
-  --foreground: #fafafa;
-  --card: #111111;
-  --card-foreground: #fafafa;
-  --popover: #111111;
-  --popover-foreground: #fafafa;
-  --primary: #D4A017;
-  --primary-foreground: #0a0a0a;
-  --secondary: #1a1a1a;
-  --secondary-foreground: #fafafa;
-  --muted: #1a1a1a;
-  --muted-foreground: #a3a3a3;
-  --accent: #FF4D00;
-  --accent-foreground: #fafafa;
+  /* PULQUI — Industria Cultural */
+  --background: #060606;
+  --foreground: #EDE8DF;
+  --card: #0F0F0F;
+  --card-foreground: #EDE8DF;
+  --popover: #0F0F0F;
+  --popover-foreground: #EDE8DF;
+  --primary: #E03D0E;
+  --primary-foreground: #EDE8DF;
+  --secondary: #141414;
+  --secondary-foreground: #EDE8DF;
+  --muted: #141414;
+  --muted-foreground: #5A5A55;
+  --accent: #C07A08;
+  --accent-foreground: #EDE8DF;
   --destructive: #dc2626;
-  --destructive-foreground: #fafafa;
-  --border: #262626;
-  --input: #262626;
-  --ring: #D4A017;
-  --radius: 0.5rem;
-  
-  /* Custom PULQUI colors */
-  --amber: #D4A017;
-  --orange: #FF4D00;
-  --green: #22c55e;
-  --burgundy: #7f1d1d;
+  --destructive-foreground: #EDE8DF;
+  --border: #1C1C1C;
+  --input: #1C1C1C;
+  --ring: #E03D0E;
+  --radius: 0rem;
+
+  /* Custom brand tokens */
+  --ember: #E03D0E;
+  --gold: #C07A08;
+  --chalk: #EDE8DF;
+  --void: #060606;
+  --smoke: #0F0F0F;
+  --steel: #1E1E1E;
+  --dust: #5A5A55;
 }
 
 @theme inline {
   --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-serif: var(--font-bebas), 'Bebas Neue', sans-serif;
-  --font-mono: 'Geist Mono', monospace;
+  --font-display: var(--font-bebas), 'Bebas Neue', sans-serif;
+  --font-mono: var(--font-space-mono), 'Space Mono', monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -56,14 +59,17 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-amber: var(--amber);
-  --color-orange: var(--orange);
-  --color-green: var(--green);
-  --color-burgundy: var(--burgundy);
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --color-ember: var(--ember);
+  --color-gold: var(--gold);
+  --color-chalk: var(--chalk);
+  --color-void: var(--void);
+  --color-smoke: var(--smoke);
+  --color-steel: var(--steel);
+  --color-dust: var(--dust);
 }
 
 @layer base {
@@ -72,10 +78,11 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: 'kern' 1;
   }
 }
 
-/* Grain texture overlay */
+/* ─── Grain texture ─────────────────────────────────────────── */
 .grain-overlay {
   position: fixed;
   top: 0;
@@ -83,40 +90,121 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 1000;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  z-index: 9999;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
 
-/* Smooth scrolling */
+/* ─── Marquee ────────────────────────────────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 3px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: #060606;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #D4A017;
-  border-radius: 4px;
+  background: #E03D0E;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: #b8890f;
+  background: #bf3309;
 }
 
-/* Hide scrollbar for horizontal scroll on mobile */
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
+/* ─── Utilities ──────────────────────────────────────────────── */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.font-display {
+  font-family: var(--font-display);
 }
 
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+.font-mono-custom {
+  font-family: var(--font-mono);
+}
+
+/* Section label */
+.section-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--ember);
+}
+
+/* Section heading */
+.section-heading {
+  font-family: var(--font-display);
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  color: var(--chalk);
+}
+
+/* ─── Ember button ───────────────────────────────────────────── */
+.btn-ember {
+  position: relative;
+  overflow: hidden;
+  background: var(--ember);
+  color: var(--chalk);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 1rem 2rem;
+  display: inline-block;
+  transition: color 0.3s;
+}
+
+.btn-ember::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #bf3309;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-ember:hover::after {
+  transform: translateY(0);
+}
+
+.btn-ember span {
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Ghost button ───────────────────────────────────────────── */
+.btn-ghost {
+  border: 1px solid var(--steel);
+  color: var(--dust);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 1rem 2rem;
+  display: inline-block;
+  transition: border-color 0.3s, color 0.3s;
+}
+
+.btn-ghost:hover {
+  border-color: var(--ember);
+  color: var(--chalk);
 }

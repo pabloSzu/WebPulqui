@@ -1,244 +1,265 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { useRef, useState } from "react"
+import { motion, useInView } from "framer-motion"
 import { MapPin, Clock, Phone, Mail, MessageCircle } from "lucide-react"
-import { useState } from "react"
+
+const contactInfo = [
+  { Icon: MapPin, label: "UBICACIÓN",  value: "Av. Hipólito Yrigoyen 350\nNueva Córdoba, Córdoba" },
+  { Icon: Clock,  label: "HORARIOS",   value: "Martes — Domingo\n18:00 — 02:00" },
+  { Icon: Phone,  label: "TELÉFONO",   value: "+54 351 456 7890" },
+  { Icon: Mail,   label: "EMAIL",      value: "hola@pulqui.bar" },
+]
 
 export function ContactSection() {
-  const [formState, setFormState] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
+
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" })
+  const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    setIsSubmitting(false)
+    setSubmitting(true)
+    await new Promise((r) => setTimeout(r, 900))
+    setSubmitting(false)
     setSubmitted(true)
-    setFormState({ name: "", email: "", subject: "", message: "" })
+    setForm({ name: "", email: "", subject: "", message: "" })
   }
 
+  const inputClass =
+    "w-full px-4 py-3 bg-void border border-steel text-chalk placeholder-dust/40 focus:border-ember focus:outline-none transition-colors duration-200"
+
+  const labelClass = "block mb-2 text-dust"
+
   return (
-    <section id="contacto" className="py-24 md:py-32 bg-background">
-      <div className="max-w-7xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <span className="text-amber text-sm tracking-[0.3em] uppercase mb-4 block">
-            Contacto
-          </span>
-          <h2 className="font-display text-5xl md:text-7xl text-foreground tracking-wider mb-6">
-            VENÍ A VISITARNOS
-          </h2>
-          <p className="text-foreground/60 max-w-2xl mx-auto text-lg">
-            ¿Tenés una consulta, querés reservar para un grupo grande o proponer un evento? 
-            Escribinos y te respondemos a la brevedad.
-          </p>
-        </motion.div>
+    <section id="contacto" ref={ref} className="py-24 md:py-32 bg-void">
+      <div className="max-w-5xl mx-auto px-6 md:px-12">
+
+        {/* ── Header ─────────────────────────────────────────── */}
+        <div className="border-b border-steel pb-5 mb-14">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            className="section-eyebrow mb-1"
+          >
+            — 07 —
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="section-heading text-[15vw] md:text-[7rem] lg:text-[8.5rem]"
+          >
+            CONTACTO
+          </motion.h2>
+        </div>
 
         <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Info */}
+
+          {/* ── Left: info ─────────────────────────────────── */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="space-y-8"
+            initial={{ opacity: 0, x: -24 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="space-y-6"
           >
-            {/* Map Placeholder */}
-            <div className="aspect-video bg-charcoal relative overflow-hidden border border-foreground/10">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <MapPin className="w-12 h-12 text-amber/40 mx-auto mb-4" />
-                  <p className="text-foreground/40 text-sm">
-                    Av. Hipólito Yrigoyen 350<br />
-                    Nueva Córdoba, Córdoba
-                  </p>
-                </div>
+            {/* Map placeholder */}
+            <div className="aspect-video bg-smoke border border-steel flex items-center justify-center relative overflow-hidden">
+              <div className="text-center">
+                <MapPin size={32} strokeWidth={1} className="text-ember/30 mx-auto mb-3" />
+                <p
+                  className="text-dust text-center"
+                  style={{ fontFamily: "var(--font-space-mono)", fontSize: "10px", letterSpacing: "0.15em", lineHeight: 2 }}
+                >
+                  AV. HIPÓLITO YRIGOYEN 350<br />
+                  NUEVA CÓRDOBA, CÓRDOBA
+                </p>
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-background/50 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-void/60 to-transparent pointer-events-none" />
             </div>
 
-            {/* Contact Details */}
-            <div className="grid sm:grid-cols-2 gap-6">
-              <div className="flex gap-4 items-start">
-                <div className="w-12 h-12 bg-amber/10 flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-5 h-5 text-amber" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-1">Dirección</h3>
-                  <p className="text-sm text-foreground/50">
-                    Av. Hipólito Yrigoyen 350<br />
-                    Nueva Córdoba, Córdoba
+            {/* Contact grid */}
+            <div className="grid sm:grid-cols-2 gap-px bg-steel">
+              {contactInfo.map(({ Icon, label, value }) => (
+                <div key={label} className="bg-smoke p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Icon size={13} strokeWidth={1.5} className="text-ember" />
+                    <span
+                      className="text-ember"
+                      style={{ fontFamily: "var(--font-space-mono)", fontSize: "9px", letterSpacing: "0.3em" }}
+                    >
+                      {label}
+                    </span>
+                  </div>
+                  <p
+                    className="text-chalk whitespace-pre-line"
+                    style={{ fontFamily: "var(--font-space-mono)", fontSize: "11px", lineHeight: 1.9 }}
+                  >
+                    {value}
                   </p>
                 </div>
-              </div>
-
-              <div className="flex gap-4 items-start">
-                <div className="w-12 h-12 bg-amber/10 flex items-center justify-center flex-shrink-0">
-                  <Clock className="w-5 h-5 text-amber" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-1">Horarios</h3>
-                  <p className="text-sm text-foreground/50">
-                    Martes a Domingo<br />
-                    18:00 - 02:00
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4 items-start">
-                <div className="w-12 h-12 bg-amber/10 flex items-center justify-center flex-shrink-0">
-                  <Phone className="w-5 h-5 text-amber" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-1">Teléfono</h3>
-                  <p className="text-sm text-foreground/50">
-                    +54 351 456 7890
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4 items-start">
-                <div className="w-12 h-12 bg-amber/10 flex items-center justify-center flex-shrink-0">
-                  <Mail className="w-5 h-5 text-amber" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-1">Email</h3>
-                  <p className="text-sm text-foreground/50">
-                    hola@pulqui.bar
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
 
-            {/* WhatsApp CTA */}
+            {/* WhatsApp */}
             <a
               href="https://wa.me/5493514567890"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-3 w-full py-4 bg-green-600 hover:bg-green-700 text-white font-semibold tracking-wide transition-colors"
+              className="flex items-center justify-center gap-3 w-full py-4 bg-[#25D366] hover:bg-[#1db954] transition-colors duration-200"
             >
-              <MessageCircle className="w-5 h-5" />
-              ESCRIBINOS POR WHATSAPP
+              <MessageCircle size={16} strokeWidth={1.5} className="text-white" />
+              <span
+                className="text-white"
+                style={{ fontFamily: "var(--font-space-mono)", fontSize: "11px", letterSpacing: "0.25em" }}
+              >
+                ESCRIBINOS POR WHATSAPP
+              </span>
             </a>
           </motion.div>
 
-          {/* Contact Form */}
+          {/* ── Right: form ────────────────────────────────── */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, x: 24 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.3 }}
           >
             {submitted ? (
-              <div className="h-full flex items-center justify-center bg-charcoal border border-foreground/10 p-12">
+              <div className="h-full min-h-[400px] flex items-center justify-center bg-smoke border border-steel p-12">
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-amber/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Mail className="w-8 h-8 text-amber" />
+                  <div className="w-12 h-12 border border-ember flex items-center justify-center mx-auto mb-6">
+                    <Mail size={20} strokeWidth={1.5} className="text-ember" />
                   </div>
-                  <h3 className="font-display text-2xl text-foreground mb-3">
-                    Mensaje Enviado
+                  <h3
+                    className="text-chalk mb-3"
+                    style={{ fontFamily: "var(--font-bebas)", fontSize: "1.8rem", letterSpacing: "0.05em" }}
+                  >
+                    MENSAJE ENVIADO
                   </h3>
-                  <p className="text-foreground/60">
-                    Gracias por escribirnos. Te responderemos pronto.
+                  <p
+                    className="text-dust mb-6"
+                    style={{ fontFamily: "var(--font-space-mono)", fontSize: "11px", lineHeight: 1.8 }}
+                  >
+                    Gracias por escribirnos.<br />Te respondemos a la brevedad.
                   </p>
                   <button
                     onClick={() => setSubmitted(false)}
-                    className="mt-6 text-amber hover:underline"
+                    className="text-ember hover:text-chalk transition-colors"
+                    style={{ fontFamily: "var(--font-space-mono)", fontSize: "10px", letterSpacing: "0.2em" }}
                   >
-                    Enviar otro mensaje
+                    ENVIAR OTRO MENSAJE
                   </button>
                 </div>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="bg-charcoal border border-foreground/10 p-8">
-                <h3 className="font-display text-2xl text-foreground mb-6">
+              <form
+                onSubmit={handleSubmit}
+                className="bg-smoke border border-steel p-8 space-y-5"
+              >
+                <h3
+                  className="text-chalk mb-2"
+                  style={{ fontFamily: "var(--font-bebas)", fontSize: "1.5rem", letterSpacing: "0.05em" }}
+                >
                   ENVIANOS UN MENSAJE
                 </h3>
 
-                <div className="space-y-5">
-                  <div>
-                    <label htmlFor="name" className="block text-sm text-foreground/60 mb-2">
-                      Nombre *
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      required
-                      value={formState.name}
-                      onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                      className="w-full px-4 py-3 bg-background border border-foreground/10 text-foreground focus:border-amber focus:outline-none transition-colors"
-                      placeholder="Tu nombre"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="email" className="block text-sm text-foreground/60 mb-2">
-                      Email *
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      required
-                      value={formState.email}
-                      onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                      className="w-full px-4 py-3 bg-background border border-foreground/10 text-foreground focus:border-amber focus:outline-none transition-colors"
-                      placeholder="tu@email.com"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="subject" className="block text-sm text-foreground/60 mb-2">
-                      Asunto
-                    </label>
-                    <select
-                      id="subject"
-                      value={formState.subject}
-                      onChange={(e) => setFormState({ ...formState, subject: e.target.value })}
-                      className="w-full px-4 py-3 bg-background border border-foreground/10 text-foreground focus:border-amber focus:outline-none transition-colors"
-                    >
-                      <option value="">Seleccioná un asunto</option>
-                      <option value="reserva">Reserva para grupo</option>
-                      <option value="evento">Propuesta de evento</option>
-                      <option value="consulta">Consulta general</option>
-                      <option value="otro">Otro</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label htmlFor="message" className="block text-sm text-foreground/60 mb-2">
-                      Mensaje *
-                    </label>
-                    <textarea
-                      id="message"
-                      required
-                      rows={5}
-                      value={formState.message}
-                      onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                      className="w-full px-4 py-3 bg-background border border-foreground/10 text-foreground focus:border-amber focus:outline-none transition-colors resize-none"
-                      placeholder="Contanos en qué podemos ayudarte..."
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full py-4 bg-amber text-background font-semibold tracking-wide hover:bg-amber-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                <div>
+                  <label
+                    htmlFor="name"
+                    className={labelClass}
+                    style={{ fontFamily: "var(--font-space-mono)", fontSize: "10px", letterSpacing: "0.2em" }}
                   >
-                    {isSubmitting ? "ENVIANDO..." : "ENVIAR MENSAJE"}
-                  </button>
+                    NOMBRE *
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    required
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    className={inputClass}
+                    placeholder="Tu nombre"
+                    style={{ fontFamily: "var(--font-space-mono)", fontSize: "12px" }}
+                  />
                 </div>
+
+                <div>
+                  <label
+                    htmlFor="email"
+                    className={labelClass}
+                    style={{ fontFamily: "var(--font-space-mono)", fontSize: "10px", letterSpacing: "0.2em" }}
+                  >
+                    EMAIL *
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    required
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    className={inputClass}
+                    placeholder="tu@email.com"
+                    style={{ fontFamily: "var(--font-space-mono)", fontSize: "12px" }}
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="subject"
+                    className={labelClass}
+                    style={{ fontFamily: "var(--font-space-mono)", fontSize: "10px", letterSpacing: "0.2em" }}
+                  >
+                    ASUNTO
+                  </label>
+                  <select
+                    id="subject"
+                    value={form.subject}
+                    onChange={(e) => setForm({ ...form, subject: e.target.value })}
+                    className={inputClass}
+                    style={{ fontFamily: "var(--font-space-mono)", fontSize: "12px" }}
+                  >
+                    <option value="">Seleccioná un asunto</option>
+                    <option value="evento">Propuesta de evento</option>
+                    <option value="arte">Propuesta artística</option>
+                    <option value="consulta">Consulta general</option>
+                    <option value="otro">Otro</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="message"
+                    className={labelClass}
+                    style={{ fontFamily: "var(--font-space-mono)", fontSize: "10px", letterSpacing: "0.2em" }}
+                  >
+                    MENSAJE *
+                  </label>
+                  <textarea
+                    id="message"
+                    required
+                    rows={5}
+                    value={form.message}
+                    onChange={(e) => setForm({ ...form, message: e.target.value })}
+                    className={`${inputClass} resize-none`}
+                    placeholder="Contanos en qué podemos ayudarte..."
+                    style={{ fontFamily: "var(--font-space-mono)", fontSize: "12px" }}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="w-full py-4 bg-ember hover:bg-[#bf3309] text-chalk transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ fontFamily: "var(--font-space-mono)", fontSize: "11px", letterSpacing: "0.25em" }}
+                >
+                  {submitting ? "ENVIANDO..." : "ENVIAR MENSAJE"}
+                </button>
               </form>
             )}
           </motion.div>
+
         </div>
       </div>
     </section>

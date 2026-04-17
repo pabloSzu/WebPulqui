@@ -1,168 +1,139 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Users, Music, Palette, Clock, MapPin, Sparkles } from "lucide-react"
-
-const features = [
-  {
-    icon: Users,
-    title: "Capacidad",
-    description: "Espacio para 120 personas con ambientes diferenciados",
-  },
-  {
-    icon: Music,
-    title: "Escenario",
-    description: "Escenario equipado para bandas y artistas en vivo",
-  },
-  {
-    icon: Palette,
-    title: "Galería",
-    description: "Muros destinados a exposiciones rotativas de arte",
-  },
-  {
-    icon: Sparkles,
-    title: "Ambiente",
-    description: "Diseño industrial con toques cálidos y acogedores",
-  },
-]
+import { useRef } from "react"
+import { motion, useInView } from "framer-motion"
 
 const stats = [
-  { value: "2019", label: "Año de apertura" },
-  { value: "12", label: "Canillas de cerveza" },
-  { value: "500+", label: "Eventos realizados" },
-  { value: "∞", label: "Buenas historias" },
+  { number: "2019", label: "Año de apertura" },
+  { number: "12",   label: "Canillas en barra" },
+  { number: "500+", label: "Eventos realizados" },
+  { number: "120",  label: "Personas de capacidad" },
+]
+
+const features = [
+  { title: "ESCENARIO",  body: "Equipado para bandas en vivo, DJs, performers y cualquier locura que se te ocurra." },
+  { title: "GALERÍA",    body: "Muestra de arte en rotación permanente. Siempre hay algo nuevo colgado en las paredes." },
+  { title: "BARRA",      body: "12 canillas. Producción propia + cervezas invitadas de toda la región." },
+  { title: "PATIO",      body: "Espacio exterior para respirar entre show y show. Ampliado en temporada de verano." },
 ]
 
 export function SpaceSection() {
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
+
   return (
-    <section id="espacio" className="py-24 md:py-32 bg-background relative overflow-hidden">
-      {/* Decorative element */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-amber/5 to-transparent pointer-events-none" />
+    <section id="espacio" ref={ref} className="py-24 md:py-32 bg-void">
+      <div className="max-w-5xl mx-auto px-6 md:px-12">
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+        {/* ── Header ─────────────────────────────────────────── */}
+        <div className="border-b border-steel pb-5 mb-14">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            className="section-eyebrow mb-1"
           >
-            <span className="text-amber text-sm tracking-[0.3em] uppercase mb-4 block">
-              Nuestro Espacio
-            </span>
-            <h2 className="font-display text-5xl md:text-6xl text-foreground tracking-wider mb-6">
-              MÁS QUE UN BAR
-            </h2>
-            <p className="text-foreground/60 text-lg leading-relaxed mb-8">
-              PULQUI nació de la idea de crear un espacio donde la cerveza artesanal 
-              se encontrara con la cultura. Un lugar para disfrutar de buena música, 
-              descubrir arte emergente, y conectar con personas que comparten la pasión 
-              por lo auténtico.
-            </p>
-            <p className="text-foreground/60 text-lg leading-relaxed mb-10">
-              Ubicados en el corazón de Nueva Córdoba, nuestro espacio combina la estética 
-              industrial con la calidez de un lugar pensado para quedarse.
-            </p>
-
-            {/* Features Grid */}
-            <div className="grid sm:grid-cols-2 gap-6">
-              {features.map((feature, index) => (
-                <motion.div
-                  key={feature.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="flex gap-4"
-                >
-                  <div className="flex-shrink-0 w-12 h-12 bg-amber/10 flex items-center justify-center">
-                    <feature.icon className="w-5 h-5 text-amber" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-1">{feature.title}</h3>
-                    <p className="text-sm text-foreground/50">{feature.description}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Image Grid */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="grid grid-cols-2 gap-4"
+            — 03 —
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="section-heading text-[15vw] md:text-[7rem] lg:text-[8.5rem]"
           >
-            <div className="space-y-4">
-              <div className="aspect-[4/5] bg-gradient-to-br from-amber/20 to-rust/10 relative overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-display text-6xl text-amber/20">P</span>
-                </div>
-              </div>
-              <div className="aspect-square bg-gradient-to-br from-charcoal to-background border border-foreground/10 relative overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Music className="w-12 h-12 text-amber/30" />
-                </div>
-              </div>
-            </div>
-            <div className="space-y-4 pt-8">
-              <div className="aspect-square bg-gradient-to-br from-rust/20 to-amber/10 relative overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Palette className="w-12 h-12 text-amber/30" />
-                </div>
-              </div>
-              <div className="aspect-[4/5] bg-gradient-to-br from-charcoal to-background border border-foreground/10 relative overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-display text-6xl text-amber/20">Q</span>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+            EL ESPACIO
+          </motion.h2>
         </div>
 
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 pt-12 border-t border-foreground/10"
-        >
-          {stats.map((stat, index) => (
+        {/* ── Stats grid ─────────────────────────────────────── */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-steel mb-px">
+          {stats.map((s, i) => (
             <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="text-center"
+              key={i}
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : {}}
+              transition={{ delay: 0.25 + i * 0.1 }}
+              className="bg-void p-8 md:p-10 text-center group hover:bg-smoke transition-colors duration-300"
             >
-              <div className="font-display text-4xl md:text-5xl text-amber mb-2">
-                {stat.value}
+              <div
+                className="text-ember group-hover:text-chalk transition-colors duration-300 leading-none mb-2"
+                style={{ fontFamily: "var(--font-bebas)", fontSize: "clamp(2.5rem, 5vw, 4rem)" }}
+              >
+                {s.number}
               </div>
-              <div className="text-sm text-foreground/50 tracking-wide uppercase">
-                {stat.label}
+              <div
+                className="text-dust uppercase"
+                style={{ fontFamily: "var(--font-space-mono)", fontSize: "9px", letterSpacing: "0.2em" }}
+              >
+                {s.label}
               </div>
             </motion.div>
           ))}
+        </div>
+
+        {/* ── Features grid ──────────────────────────────────── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-steel mb-px">
+          {features.map((f, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 16 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.4 + i * 0.08 }}
+              className="bg-smoke p-8 group hover:bg-void transition-colors duration-300"
+            >
+              <div className="w-6 h-px bg-ember mb-5 group-hover:w-10 transition-all duration-300" />
+              <h3
+                className="text-chalk group-hover:text-ember transition-colors duration-300 mb-3 tracking-wider"
+                style={{ fontFamily: "var(--font-bebas)", fontSize: "1.4rem" }}
+              >
+                {f.title}
+              </h3>
+              <p
+                className="text-dust leading-relaxed"
+                style={{ fontFamily: "var(--font-space-mono)", fontSize: "11px", lineHeight: 1.8 }}
+              >
+                {f.body}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* ── Address / hours ────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.75 }}
+          className="bg-smoke border-t-2 border-ember p-8 flex flex-col sm:flex-row justify-between gap-6"
+        >
+          <div>
+            <p
+              className="text-ember mb-1 uppercase"
+              style={{ fontFamily: "var(--font-space-mono)", fontSize: "9px", letterSpacing: "0.35em" }}
+            >
+              UBICACIÓN
+            </p>
+            <p
+              className="text-chalk"
+              style={{ fontFamily: "var(--font-space-mono)", fontSize: "12px" }}
+            >
+              Av. Hipólito Yrigoyen 350, Nueva Córdoba
+            </p>
+          </div>
+          <div>
+            <p
+              className="text-ember mb-1 uppercase"
+              style={{ fontFamily: "var(--font-space-mono)", fontSize: "9px", letterSpacing: "0.35em" }}
+            >
+              HORARIOS
+            </p>
+            <p
+              className="text-chalk"
+              style={{ fontFamily: "var(--font-space-mono)", fontSize: "12px" }}
+            >
+              Martes — Domingo&nbsp;&nbsp;18:00 — 02:00
+            </p>
+          </div>
         </motion.div>
 
-        {/* Location Info */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-8 mt-12 text-foreground/50"
-        >
-          <div className="flex items-center gap-2">
-            <MapPin className="w-5 h-5 text-amber" />
-            <span>Av. Hipólito Yrigoyen 350, Nueva Córdoba</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Clock className="w-5 h-5 text-amber" />
-            <span>Mar a Dom: 18:00 - 02:00</span>
-          </div>
-        </motion.div>
       </div>
     </section>
   )

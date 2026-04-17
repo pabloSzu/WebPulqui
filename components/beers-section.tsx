@@ -1,208 +1,211 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { useState } from "react"
+import { useRef, useState } from "react"
+import { motion, useInView } from "framer-motion"
 
 const beers = [
   {
     id: 1,
-    name: "Pampa Dorada",
+    name: "PAMPA DORADA",
     style: "Golden Ale",
     abv: "5.2%",
-    ibu: "18",
-    description: "Suave y refrescante, con notas a miel y un final limpio. Ideal para empezar la noche.",
-    color: "from-yellow-300 to-amber-400",
+    ibu: 18,
+    accentColor: "#C07A08",
     tags: ["Suave", "Refrescante"],
+    description: "Notas de miel y cereales. Ligera, refrescante y perfecta para arrancar la noche.",
   },
   {
     id: 2,
-    name: "Tormenta Roja",
+    name: "TORMENTA ROJA",
     style: "Irish Red Ale",
     abv: "5.8%",
-    ibu: "25",
-    description: "Equilibrada con caramelo, tostados suaves y un toque de malta. Cuerpo medio con final seco.",
-    color: "from-orange-500 to-red-700",
+    ibu: 25,
+    accentColor: "#8B2525",
     tags: ["Equilibrada", "Maltosa"],
+    description: "Caramelo tostado, cuerpo medio, final seco. Para los que saben lo que quieren.",
   },
   {
     id: 3,
-    name: "Noche Negra",
+    name: "NOCHE NEGRA",
     style: "Stout",
     abv: "6.5%",
-    ibu: "35",
-    description: "Intensa con café, chocolate amargo y un toque ahumado. Para los que buscan profundidad.",
-    color: "from-stone-800 to-stone-950",
+    ibu: 35,
+    accentColor: "#4A4A4A",
     tags: ["Intensa", "Compleja"],
+    description: "Café, chocolate amargo, notas ahumadas. La cerveza para quedarse hasta el cierre.",
   },
   {
     id: 4,
-    name: "Cielo IPA",
+    name: "CIELO IPA",
     style: "American IPA",
     abv: "6.8%",
-    ibu: "55",
-    description: "Explosión de cítricos y frutas tropicales. Amargor pronunciado pero balanceado.",
-    color: "from-amber-400 to-orange-500",
+    ibu: 55,
+    accentColor: "#D4880A",
     tags: ["Lupulada", "Cítrica"],
+    description: "Explosión cítrica y tropical. Amargor pronunciado pero balanceado. Para los valientes.",
   },
   {
     id: 5,
-    name: "Brisa de Trigo",
+    name: "BRISA DE TRIGO",
     style: "Hefeweizen",
     abv: "4.9%",
-    ibu: "12",
-    description: "Clásica alemana con banana, clavo de olor y una textura sedosa. Perfecta para el verano.",
-    color: "from-yellow-200 to-yellow-400",
+    ibu: 12,
+    accentColor: "#B8973A",
     tags: ["Frutal", "Sedosa"],
+    description: "Banana, clavo de olor, textura sedosa. Un clásico alemán hecho en Córdoba.",
   },
   {
     id: 6,
-    name: "Fuego del Sur",
+    name: "FUEGO DEL SUR",
     style: "Chile Ale",
     abv: "5.5%",
-    ibu: "20",
-    description: "Nuestra especial con ají. Empieza suave y termina con un calor que invita a otro sorbo.",
-    color: "from-red-500 to-red-800",
+    ibu: 20,
+    accentColor: "#E03D0E",
     tags: ["Especial", "Picante"],
+    description: "Con ají. Empieza suave, termina con fuego. Nuestra especialidad de la casa.",
   },
 ]
 
 export function BeersSection() {
-  const [selectedBeer, setSelectedBeer] = useState(beers[0])
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin: "-80px" })
+  const [hovered, setHovered] = useState<number | null>(null)
 
   return (
-    <section id="cervezas" className="py-24 md:py-32 bg-charcoal relative overflow-hidden">
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--amber)_1px,_transparent_1px)] bg-[size:40px_40px]" />
-      </div>
+    <section id="cervezas" ref={ref} className="py-24 md:py-32 bg-smoke">
+      <div className="max-w-5xl mx-auto px-6 md:px-12">
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <span className="text-amber text-sm tracking-[0.3em] uppercase mb-4 block">
-            Nuestras Cervezas
-          </span>
-          <h2 className="font-display text-5xl md:text-7xl text-foreground tracking-wider mb-6">
-            DE LA CANILLA A TU VASO
-          </h2>
-          <p className="text-foreground/60 max-w-2xl mx-auto text-lg">
-            Elaboramos todas nuestras cervezas en el mismo lugar donde las servimos. 
-            Frescura y sabor garantizados en cada pinta.
-          </p>
-        </motion.div>
-
-        <div className="grid lg:grid-cols-3 gap-8 items-start">
-          {/* Beer List */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="lg:col-span-1 space-y-2"
+        {/* ── Header ─────────────────────────────────────────── */}
+        <div className="border-b border-steel pb-5 mb-14">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            className="section-eyebrow mb-1"
           >
-            {beers.map((beer) => (
-              <button
-                key={beer.id}
-                onClick={() => setSelectedBeer(beer)}
-                className={`w-full text-left p-4 transition-all ${
-                  selectedBeer.id === beer.id
-                    ? "bg-background border-l-4 border-amber"
-                    : "bg-background/50 border-l-4 border-transparent hover:bg-background hover:border-foreground/20"
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className={`font-semibold ${selectedBeer.id === beer.id ? "text-amber" : "text-foreground"}`}>
-                      {beer.name}
-                    </h3>
-                    <p className="text-sm text-foreground/50">{beer.style}</p>
-                  </div>
-                  <span className="text-sm text-foreground/40">{beer.abv}</span>
-                </div>
-              </button>
-            ))}
-          </motion.div>
-
-          {/* Selected Beer Detail */}
-          <motion.div
-            key={selectedBeer.id}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
-            className="lg:col-span-2 bg-background border border-foreground/10 p-8 md:p-12"
+            — 04 —
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="section-heading text-[15vw] md:text-[7rem] lg:text-[8.5rem]"
           >
-            <div className="flex flex-col md:flex-row gap-8 items-start">
-              {/* Beer Glass Visualization */}
-              <div className="flex-shrink-0">
-                <div className="relative">
-                  <div className="w-32 h-48 rounded-b-full border-4 border-foreground/20 relative overflow-hidden">
-                    <motion.div
-                      initial={{ height: 0 }}
-                      animate={{ height: "85%" }}
-                      transition={{ duration: 0.8, ease: "easeOut" }}
-                      className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t ${selectedBeer.color}`}
-                    >
-                      {/* Foam */}
-                      <div className="absolute -top-3 left-0 right-0 h-6 bg-cream rounded-full opacity-90" />
-                    </motion.div>
-                  </div>
-                  {/* Glass base */}
-                  <div className="w-20 h-2 bg-foreground/20 rounded-full mx-auto mt-1" />
-                </div>
-              </div>
-
-              {/* Beer Info */}
-              <div className="flex-1">
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {selectedBeer.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs tracking-wider text-amber bg-amber/10 px-3 py-1"
-                    >
-                      {tag.toUpperCase()}
-                    </span>
-                  ))}
-                </div>
-
-                <h3 className="font-display text-4xl md:text-5xl text-foreground mb-2">
-                  {selectedBeer.name}
-                </h3>
-                <p className="text-amber text-lg mb-6">{selectedBeer.style}</p>
-
-                <p className="text-foreground/60 text-lg leading-relaxed mb-8">
-                  {selectedBeer.description}
-                </p>
-
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="bg-charcoal p-4">
-                    <div className="text-2xl font-display text-amber">{selectedBeer.abv}</div>
-                    <div className="text-sm text-foreground/50">Alcohol</div>
-                  </div>
-                  <div className="bg-charcoal p-4">
-                    <div className="text-2xl font-display text-amber">{selectedBeer.ibu}</div>
-                    <div className="text-sm text-foreground/50">IBU (Amargor)</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+            CERVEZAS
+          </motion.h2>
         </div>
 
-        {/* Bottom CTA */}
+        {/* ── Beer grid ──────────────────────────────────────── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-steel">
+          {beers.map((beer, i) => (
+            <motion.div
+              key={beer.id}
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : {}}
+              transition={{ delay: 0.2 + i * 0.07 }}
+              onMouseEnter={() => setHovered(beer.id)}
+              onMouseLeave={() => setHovered(null)}
+              className="bg-void p-8 group relative overflow-hidden hover:bg-smoke transition-colors duration-300 cursor-default"
+            >
+              {/* Top color bar */}
+              <div
+                className="absolute top-0 left-0 right-0 h-[3px] transition-all duration-500 group-hover:h-[5px]"
+                style={{ backgroundColor: beer.accentColor }}
+              />
+
+              {/* ABV — large background number */}
+              <div
+                className="text-steel/25 leading-none mb-5 transition-colors duration-300 group-hover:text-steel/40"
+                style={{ fontFamily: "var(--font-bebas)", fontSize: "3.5rem" }}
+              >
+                {beer.abv}
+              </div>
+
+              {/* Beer name */}
+              <h3
+                className="text-chalk leading-none mb-1 group-hover:text-ember transition-colors duration-300"
+                style={{
+                  fontFamily: "var(--font-bebas)",
+                  fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)",
+                  letterSpacing: "0.05em",
+                }}
+              >
+                {beer.name}
+              </h3>
+
+              {/* Style */}
+              <p
+                className="text-dust uppercase mb-4"
+                style={{ fontFamily: "var(--font-space-mono)", fontSize: "9px", letterSpacing: "0.25em" }}
+              >
+                {beer.style}
+              </p>
+
+              {/* Tags */}
+              <div className="flex flex-wrap gap-1.5 mb-5">
+                {beer.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="border border-steel text-dust px-2 py-0.5 group-hover:border-dust/40 transition-colors"
+                    style={{ fontFamily: "var(--font-space-mono)", fontSize: "8px", letterSpacing: "0.2em" }}
+                  >
+                    {tag.toUpperCase()}
+                  </span>
+                ))}
+              </div>
+
+              {/* Description */}
+              <p
+                className="text-dust/70 leading-relaxed mb-6"
+                style={{ fontFamily: "var(--font-space-mono)", fontSize: "10px", lineHeight: 1.75 }}
+              >
+                {beer.description}
+              </p>
+
+              {/* IBU progress bar */}
+              <div className="flex items-center gap-3">
+                <span
+                  className="text-dust/40 shrink-0"
+                  style={{ fontFamily: "var(--font-space-mono)", fontSize: "9px", letterSpacing: "0.1em" }}
+                >
+                  IBU
+                </span>
+                <div className="flex-1 h-px bg-steel relative overflow-hidden">
+                  <motion.div
+                    className="absolute top-0 left-0 h-full"
+                    initial={{ width: 0 }}
+                    animate={{ width: hovered === beer.id ? `${Math.min(beer.ibu * 1.6, 100)}%` : "0%" }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    style={{ backgroundColor: beer.accentColor }}
+                  />
+                </div>
+                <span
+                  className="text-dust/40 shrink-0"
+                  style={{ fontFamily: "var(--font-space-mono)", fontSize: "9px" }}
+                >
+                  {beer.ibu}
+                </span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* ── Bottom note ────────────────────────────────────── */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mt-16 p-8 bg-background/50 border border-foreground/10"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.8 }}
+          className="mt-px bg-void border border-steel p-6 text-center"
         >
-          <p className="text-foreground/60 mb-4">
-            ¿Querés probarlas todas? Preguntá por nuestro <span className="text-amber">vuelo de cervezas</span>: 
-            6 muestras de 150ml para descubrir tus favoritas.
+          <p
+            className="text-dust"
+            style={{ fontFamily: "var(--font-space-mono)", fontSize: "11px", letterSpacing: "0.1em", lineHeight: 1.8 }}
+          >
+            ¿No podés elegir?{" "}
+            <span className="text-ember">Pedí el vuelo de cervezas</span>
+            {" "}— 6 muestras de 150ml para descubrir tus favoritas.
           </p>
         </motion.div>
+
       </div>
     </section>
   )
