@@ -5,8 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import { ArrowDown } from "lucide-react"
 import Image from "next/image"
 
-const HERO_IMAGE =
-  "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1920&q=85&auto=format&fit=crop"
+const HERO_IMAGE = "/hero.png"
 
 const tickerItems = [
   "BAR", "CERVECERÍA ARTESANAL", "MÚSICA EN VIVO",
@@ -60,7 +59,7 @@ export function Hero() {
       </div>
 
       {/* ── Top ticker ──────────────────────────────────────── */}
-      <div className="relative z-10 pt-[4.5rem] overflow-hidden border-b border-white/8">
+      <div className="relative z-10 pt-18 overflow-hidden border-b border-white/8">
         <div className="flex overflow-hidden py-3">
           <div className="marquee-track">
             {[...Array(4)].map((_, i) => (
@@ -92,7 +91,7 @@ export function Hero() {
           initial={{ width: 0 }}
           animate={{ width: 44 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="h-[2px] bg-ember mb-6"
+          className="h-0.5 bg-ember mb-6"
         />
 
         {/* PULQUI — screen-filling */}

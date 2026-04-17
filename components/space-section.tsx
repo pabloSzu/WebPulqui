@@ -19,22 +19,10 @@ const features = [
 ]
 
 const spaceImages = [
-  {
-    src: "https://images.unsplash.com/photo-1574068472323-03a5d59e27fa?w=800&q=80&auto=format&fit=crop",
-    label: "LA BARRA",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&q=80&auto=format&fit=crop",
-    label: "EL ESCENARIO",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=800&q=80&auto=format&fit=crop",
-    label: "LA GALERÍA",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1551918120-9739cb430c6d?w=800&q=80&auto=format&fit=crop",
-    label: "EL PATIO",
-  },
+  { src: "/escenario-solo.png",  label: "EL ESCENARIO" },
+  { src: "/banda-escenario.png", label: "MÚSICA EN VIVO" },
+  { src: "/vista-arriba.png",    label: "EL PATIO" },
+  { src: "/mural-entrada.png",   label: "LA ENTRADA" },
 ]
 
 export function SpaceSection() {
@@ -103,7 +91,7 @@ export function SpaceSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.4 + i * 0.1 }}
-              className="relative flex-shrink-0 w-[70vw] sm:w-[45vw] md:flex-1 overflow-hidden group"
+              className="relative shrink-0 w-[70vw] sm:w-[45vw] md:flex-1 overflow-hidden group"
               style={{ height: "clamp(220px, 35vw, 420px)" }}
             >
               <Image
@@ -117,7 +105,7 @@ export function SpaceSection() {
               <div className="absolute inset-0 bg-void/65 group-hover:bg-void/35 transition-colors duration-500" />
 
               {/* Top-left ember line */}
-              <div className="absolute top-0 left-0 w-0 h-[2px] bg-ember group-hover:w-full transition-all duration-500" />
+              <div className="absolute top-0 left-0 w-0 h-0.5 bg-ember group-hover:w-full transition-all duration-500" />
 
               {/* Label */}
               <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-2 group-hover:translate-y-0 opacity-70 group-hover:opacity-100 transition-all duration-400">
