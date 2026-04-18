@@ -123,9 +123,8 @@
 }
 
 /* ─── Scrollbar ──────────────────────────────────────────────── */
-/* scroll-behavior: smooth is handled by Lenis — no CSS override needed */
 html {
-  scroll-behavior: auto;
+  scroll-behavior: smooth;
 }
 
 ::-webkit-scrollbar {

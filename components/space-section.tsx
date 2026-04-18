@@ -158,7 +158,7 @@ export function SpaceSection() {
               className="text-chalk"
               style={{ fontFamily: "var(--font-space-mono)", fontSize: "12px" }}
             >
-              Av. Hipólito Yrigoyen 350, Nueva Córdoba
+              Rodríguez Peña 455, Barrio Alberdi
             </p>
           </div>
           <div>
