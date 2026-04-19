@@ -56,18 +56,6 @@ export function Hero() {
       <div className="absolute bottom-0 left-0 w-[55vw] h-[60vh] bg-ember/10 blur-[160px] rounded-full pointer-events-none" />
       <div className="absolute bottom-[10%] right-[5%] w-[30vw] h-[40vh] bg-ember/6 blur-[120px] rounded-full pointer-events-none" />
 
-      {/* ── Vertical label — left edge ───────────────────────── */}
-      <div className="absolute left-5 top-1/2 -translate-y-1/2 z-10 hidden lg:flex flex-col items-center gap-4">
-        <div className="w-px h-16 bg-white/10" />
-        <span
-          className="text-white/20 tracking-[0.4em] uppercase"
-          style={{ fontFamily: "var(--font-space-mono)", fontSize: "8px", writingMode: "vertical-rl" }}
-        >
-          Industria Cultural
-        </span>
-        <div className="w-px h-16 bg-white/10" />
-      </div>
-
       {/* ── Top ticker ──────────────────────────────────────── */}
       <div className="relative z-10 pt-18 overflow-hidden border-b border-white/8">
         <div className="flex overflow-hidden py-3">
@@ -94,78 +82,70 @@ export function Hero() {
       {/* ── Main content ──────────────────────────────────────── */}
       <motion.div
         style={{ y: textY, opacity }}
-        className="relative z-10 flex-1 flex flex-col justify-end px-8 md:px-16 pb-28 md:pb-32"
+        className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 md:px-16"
       >
-
-        {/* Eyebrow */}
+        {/* Overline bar */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="flex items-center gap-4 mb-6"
-        >
-          <div className="w-10 h-px bg-ember" />
-          <span
-            className="text-ember uppercase tracking-[0.45em]"
-            style={{ fontFamily: "var(--font-space-mono)", fontSize: "10px" }}
-          >
-            Córdoba · desde 2019
-          </span>
-        </motion.div>
+          initial={{ width: 0 }}
+          animate={{ width: 44 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          className="h-px bg-ember mb-6"
+        />
 
         {/* PULQUI — screen-filling */}
-        <div className="overflow-hidden mb-3">
+        <div className="overflow-hidden">
           <motion.h1
             initial={{ y: "110%" }}
             animate={{ y: 0 }}
             transition={{ duration: 1.0, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="leading-[0.85] tracking-tight text-white"
+            className="leading-[0.88] tracking-tight text-white text-center drop-shadow-2xl"
             style={{
               fontFamily: "var(--font-bebas)",
-              fontSize: "clamp(5.5rem, 23vw, 22rem)",
+              fontSize: "clamp(5rem, 22vw, 22rem)",
             }}
           >
             PULQUI
           </motion.h1>
         </div>
 
-        {/* Subtitle row */}
+        {/* Subtitle */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.75 }}
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-6"
+          transition={{ duration: 0.6, delay: 0.85 }}
+          className="flex items-center gap-5 mt-5"
         >
-          <p
-            className="text-white/40 max-w-xs leading-relaxed"
-            style={{ fontFamily: "var(--font-space-mono)", fontSize: "11px", lineHeight: 1.9 }}
+          <div className="w-8 h-px bg-white/20" />
+          <span
+            className="text-[10px] md:text-[11px] tracking-[0.45em] text-white/50 uppercase"
+            style={{ fontFamily: "var(--font-space-mono)" }}
           >
-            Bar · Cervecería artesanal · Espacio cultural.<br />
-            Música en vivo, arte y las mejores cervezas de Alberdi.
-          </p>
+            INDUSTRIA CULTURAL
+          </span>
+          <div className="w-8 h-px bg-white/20" />
+        </motion.div>
 
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.95 }}
-            className="flex flex-row gap-3 shrink-0"
+        {/* CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 1.05 }}
+          className="flex flex-col sm:flex-row gap-3 mt-10"
+        >
+          <a href="#agenda" className="btn-ember">
+            <span>VER AGENDA</span>
+          </a>
+          <a
+            href="#espacio"
+            className="px-8 py-4 border border-white/20 hover:border-ember transition-colors duration-300 group"
           >
-            <a href="#agenda" className="btn-ember">
-              <span>VER AGENDA</span>
-            </a>
-            <a
-              href="#espacio"
-              className="px-8 py-4 border border-white/15 hover:border-ember transition-colors duration-300 group"
+            <span
+              className="text-white/50 group-hover:text-white transition-colors duration-300"
+              style={{ fontFamily: "var(--font-space-mono)", fontSize: "11px", letterSpacing: "0.3em" }}
             >
-              <span
-                className="text-white/40 group-hover:text-white transition-colors duration-300"
-                style={{ fontFamily: "var(--font-space-mono)", fontSize: "11px", letterSpacing: "0.3em" }}
-              >
-                EL ESPACIO
-              </span>
-            </a>
-          </motion.div>
+              EL ESPACIO
+            </span>
+          </a>
         </motion.div>
       </motion.div>
 
