@@ -85,35 +85,38 @@ export function Hero() {
         style={{ y: textY, opacity }}
         className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 md:px-16"
       >
-        {/* PULQUI + plane — outer div shrinks to text width so SVG aligns P→I */}
-        <div className="relative" style={{ width: "max-content", maxWidth: "100%" }}>
+        {/*
+          w-fit → el div se achica al ancho exacto del texto PULQUI.
+          El avión es absolute sobre él con z-20, encima de las letras.
+          El h1 no usa overflow-hidden: animamos con opacity+y pequeño
+          para evitar el clipping que tapaba el avión.
+        */}
+        <div className="relative w-fit">
 
-          {/* Plane — absolute, sits just above the text, same width */}
+          {/* Avión — encima del texto, alineado de P a I */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className="absolute left-0 right-0"
-            style={{ bottom: "92%", height: "clamp(28px, 5.2vw, 70px)" }}
+            transition={{ duration: 0.3, delay: 0.15 }}
+            className="absolute left-0 right-0 z-20 pointer-events-none"
+            style={{ bottom: "100%", marginBottom: "clamp(2px, 0.4vw, 6px)", height: "clamp(28px, 5.2vw, 68px)" }}
           >
             <PaperPlaneLogo />
           </motion.div>
 
-          {/* PULQUI title */}
-          <div className="overflow-hidden">
-            <motion.h1
-              initial={{ y: "110%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 1.0, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="leading-[0.88] tracking-tight text-white text-center drop-shadow-2xl"
-              style={{
-                fontFamily: "var(--font-bebas)",
-                fontSize: "clamp(5rem, 22vw, 22rem)",
-              }}
-            >
-              PULQUI
-            </motion.h1>
-          </div>
+          {/* PULQUI — fade + slide suave, sin overflow-hidden */}
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="leading-[0.88] tracking-tight text-white drop-shadow-2xl"
+            style={{
+              fontFamily: "var(--font-bebas)",
+              fontSize: "clamp(5rem, 22vw, 22rem)",
+            }}
+          >
+            PULQUI
+          </motion.h1>
         </div>
 
         {/* Subtitle */}
