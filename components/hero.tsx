@@ -104,7 +104,26 @@ export function Hero() {
               fontSize: "clamp(5rem, 22vw, 22rem)",
             }}
           >
-            PULQUI
+            PULQU<span className="relative inline-block">
+              {/* Paper airplane above the I */}
+              <span
+                className="absolute left-1/2 -translate-x-1/2 text-ember"
+                style={{ top: "-0.55em", width: "0.45em", height: "0.45em" }}
+                aria-hidden="true"
+              >
+                <svg viewBox="0 0 44 52" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
+                  {/* Left wing */}
+                  <path d="M22 2 L2 42 L22 30 Z" fill="currentColor" fillOpacity="0.9"/>
+                  {/* Right wing */}
+                  <path d="M22 2 L42 42 L22 30 Z" fill="currentColor" fillOpacity="0.65"/>
+                  {/* Center crease */}
+                  <line x1="22" y1="2" x2="22" y2="48" stroke="currentColor" strokeWidth="1" strokeOpacity="0.35"/>
+                  {/* Tail fins */}
+                  <path d="M22 30 L15 50 L22 44 L29 50 Z" fill="currentColor" fillOpacity="0.8"/>
+                </svg>
+              </span>
+              I
+            </span>
           </motion.h1>
         </div>
 
