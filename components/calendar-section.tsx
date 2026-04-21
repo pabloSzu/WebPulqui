@@ -71,7 +71,7 @@ export function CalendarSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="section-heading text-[15vw] md:text-[7rem] lg:text-[8.5rem]"
+            className="section-heading text-[13vw] sm:text-[14vw] md:text-[7rem] lg:text-[8.5rem]"
           >
             CALENDARIO
           </motion.h2>
@@ -157,7 +157,7 @@ export function CalendarSection() {
                         ? "text-ember"
                         : "text-chalk/80"
                     }
-                    style={{ fontFamily: "var(--font-space-mono)", fontSize: "clamp(0.7rem, 1.8vw, 0.9rem)" }}
+                    style={{ fontFamily: "var(--font-space-mono)", fontSize: "clamp(0.75rem, 2.5vw, 0.9rem)" }}
                   >
                     {day}
                   </span>

@@ -50,7 +50,7 @@ export function ContactSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="section-heading text-[15vw] md:text-[7rem] lg:text-[8.5rem]"
+            className="section-heading text-[13vw] sm:text-[14vw] md:text-[7rem] lg:text-[8.5rem]"
           >
             CONTACTO
           </motion.h2>
@@ -73,8 +73,8 @@ export function ContactSection() {
                   className="text-dust text-center"
                   style={{ fontFamily: "var(--font-space-mono)", fontSize: "10px", letterSpacing: "0.15em", lineHeight: 2 }}
                 >
-                  AV. HIPÓLITO YRIGOYEN 350<br />
-                  NUEVA CÓRDOBA, CÓRDOBA
+                  RODRÍGUEZ PEÑA 455<br />
+                  BARRIO ALBERDI, CÓRDOBA
                 </p>
               </div>
               <div className="absolute inset-0 bg-linear-to-t from-void/60 to-transparent pointer-events-none" />

@@ -66,7 +66,7 @@ export function EventsSection() {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="section-heading text-[15vw] md:text-[7rem] lg:text-[8.5rem]"
+              className="section-heading text-[13vw] sm:text-[14vw] md:text-[7rem] lg:text-[8.5rem]"
             >
               AGENDA
             </motion.h2>
@@ -126,21 +126,30 @@ export function EventsSection() {
 
                 {/* Title + description */}
                 <div className="flex-1 min-w-0">
-                  <h3
-                    className="text-chalk group-hover:text-ember transition-colors duration-300 leading-none truncate"
-                    style={{ fontFamily: "var(--font-bebas)", fontSize: "clamp(1.3rem, 3.5vw, 2rem)", letterSpacing: "0.04em" }}
-                  >
-                    {event.title}
-                  </h3>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h3
+                      className="text-chalk group-hover:text-ember transition-colors duration-300 leading-none"
+                      style={{ fontFamily: "var(--font-bebas)", fontSize: "clamp(1.3rem, 3.5vw, 2rem)", letterSpacing: "0.04em" }}
+                    >
+                      {event.title}
+                    </h3>
+                    {/* Category badge — visible on mobile, hidden on sm+ where the right column shows */}
+                    <span
+                      className="text-ember border border-ember/30 px-1.5 py-0.5 sm:hidden shrink-0"
+                      style={{ fontFamily: "var(--font-space-mono)", fontSize: "8px", letterSpacing: "0.15em" }}
+                    >
+                      {event.category}
+                    </span>
+                  </div>
                   <p
-                    className="text-dust mt-1.5 truncate"
+                    className="text-dust mt-1.5 line-clamp-1"
                     style={{ fontFamily: "var(--font-space-mono)", fontSize: "10px", letterSpacing: "0.1em" }}
                   >
                     {event.description}
                   </p>
                 </div>
 
-                {/* Time + category */}
+                {/* Time + category — desktop only */}
                 <div className="shrink-0 text-right hidden sm:block">
                   <div className="flex items-center gap-1.5 justify-end">
                     <Clock size={10} className="text-dust" />

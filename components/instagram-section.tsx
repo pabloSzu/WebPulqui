@@ -34,7 +34,7 @@ export function InstagramSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="section-heading text-[15vw] md:text-[7rem] lg:text-[8.5rem]"
+            className="section-heading text-[13vw] sm:text-[14vw] md:text-[7rem] lg:text-[8.5rem]"
           >
             INSTAGRAM
           </motion.h2>
