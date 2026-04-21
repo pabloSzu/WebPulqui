@@ -3,142 +3,104 @@
 import { useId } from "react"
 import { motion } from "framer-motion"
 
-// Teardrop loop path — the plane starts at the bottom tip, flies up,
-// arcs around the top, and returns exactly to the start point.
-const PATH = "M 60 94 C 60 94 14 76 14 46 C 14 16 106 16 106 46 C 106 76 60 94 60 94"
+// Wide oval path — starts bottom-center, sweeps right, arcs over the top,
+// curves back left and returns exactly to the start.
+// Tangent at start points RIGHT (+X), so with rotate="auto" the nose faces forward.
+const PATH = "M 100 158 C 175 158 188 95 188 65 C 188 15 12 15 12 65 C 12 95 25 158 100 158"
 
-interface PaperPlaneLogoProps {
-  size?: number
-  color?: string
-}
-
-export function PaperPlaneLogo({ size = 56, color = "#E03D0E" }: PaperPlaneLogoProps) {
-  const uid = useId().replace(/:/g, "")
-  const pathId  = `pp-path-${uid}`
-  const glowId  = `pp-glow-${uid}`
-  const glow2Id = `pp-glow2-${uid}`
+export function PaperPlaneLogo({ size = 110 }: { size?: number }) {
+  const uid      = useId().replace(/[^a-z0-9]/gi, "")
+  const pathId   = `pl-p-${uid}`
+  const glowId   = `pl-g-${uid}`
+  const planeGlow = `pl-pg-${uid}`
+  const h        = Math.round(size * 170 / 200)
 
   return (
     <svg
-      viewBox="0 0 120 110"
+      viewBox="0 0 200 170"
       width={size}
-      height={Math.round(size * 110 / 120)}
+      height={h}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
     >
       <defs>
-        {/* Reference path for animateMotion */}
+        {/* Reference path */}
         <path id={pathId} d={PATH} />
 
-        {/* Soft glow for trail */}
-        <filter id={glowId} x="-30%" y="-30%" width="160%" height="160%">
-          <feGaussianBlur stdDeviation="2.5" in="SourceGraphic" result="blur" />
+        {/* Trail glow */}
+        <filter id={glowId} x="-25%" y="-25%" width="150%" height="150%">
+          <feGaussianBlur stdDeviation="3" in="SourceGraphic" result="coloredBlur" />
           <feMerge>
-            <feMergeNode in="blur" />
+            <feMergeNode in="coloredBlur" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
 
-        {/* Sharper glow for plane */}
-        <filter id={glow2Id} x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur stdDeviation="1.8" in="SourceGraphic" result="blur" />
+        {/* Plane glow */}
+        <filter id={planeGlow} x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="2.5" in="SourceGraphic" result="coloredBlur" />
           <feMerge>
-            <feMergeNode in="blur" />
+            <feMergeNode in="coloredBlur" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
       </defs>
 
-      {/* ── Ghost path — full loop, very dim ─────────────────── */}
-      <path
-        d={PATH}
-        stroke={color}
-        strokeWidth="1.2"
-        strokeLinecap="round"
-        opacity={0.08}
-      />
+      {/* Ghost path — full shape always faintly visible */}
+      <use href={`#${pathId}`} stroke="#E03D0E" strokeWidth="1" fill="none" opacity="0.08" />
 
-      {/* ── Animated glowing trail ────────────────────────────── */}
+      {/* Animated glowing trail — draws once, stays */}
       <motion.path
         d={PATH}
-        stroke={color}
-        strokeWidth="1.6"
+        stroke="#E03D0E"
+        strokeWidth="2"
         strokeLinecap="round"
         fill="none"
         filter={`url(#${glowId})`}
         initial={{ pathLength: 0, opacity: 0 }}
-        animate={{
-          pathLength: [0, 0.92, 1],
-          opacity:    [0, 1,    0.7],
-        }}
+        animate={{ pathLength: 1, opacity: 1 }}
         transition={{
-          duration: 3,
-          times: [0, 0.88, 1],
-          ease: "easeInOut",
-          repeat: Infinity,
-          repeatDelay: 0,
+          pathLength: { duration: 3.2, ease: [0.4, 0, 0.15, 1] },
+          opacity:    { duration: 0.4 },
         }}
       />
 
-      {/* ── Paper airplane body ───────────────────────────────── */}
-      {/* Uses SVG animateMotion to follow the path smoothly      */}
-      <g filter={`url(#${glow2Id})`}>
-        {/* Right wing (slightly transparent) */}
-        <path d="M 0,-9 L 6,7 L 0,4 Z" fill={color} fillOpacity="0.6">
-          <animateMotion
-            dur="3s"
-            repeatCount="indefinite"
-            rotate="auto"
-            calcMode="spline"
-            keyTimes="0;1"
-            keySplines="0.42 0 0.58 1"
-          >
-            <mpath href={`#${pathId}`} />
-          </animateMotion>
-        </path>
+      {/*
+        Paper airplane viewed from top — nose points RIGHT (+X).
+        rotate="auto" aligns +X of the element with the direction of travel,
+        so the nose always faces forward along the curve.
 
-        {/* Left wing (solid) */}
-        <path d="M 0,-9 L -6,7 L 0,4 Z" fill={color} fillOpacity="0.95">
-          <animateMotion
-            dur="3s"
-            repeatCount="indefinite"
-            rotate="auto"
-            calcMode="spline"
-            keyTimes="0;1"
-            keySplines="0.42 0 0.58 1"
-          >
-            <mpath href={`#${pathId}`} />
-          </animateMotion>
-        </path>
+        Shape:
+          Nose:        (12,  0)
+          Top wing:    (-8, -9)
+          Tail notch:  (-4,  0)
+          Bottom wing: (-8,  9)
+      */}
+      <g filter={`url(#${planeGlow})`}>
+        {/* Top wing — solid */}
+        <path d="M 12,0 L -8,-9 L -4,0 Z" fill="#E03D0E" fillOpacity="0.95" />
+        {/* Bottom wing — slightly dim for depth */}
+        <path d="M 12,0 L -8,9 L -4,0 Z"  fill="#E03D0E" fillOpacity="0.6"  />
+        {/* Fuselage center fold */}
+        <line x1="12" y1="0" x2="-8" y2="0" stroke="#ffffff" strokeWidth="0.7" strokeOpacity="0.25" />
+        {/* Tail stabilisers */}
+        <line x1="-4" y1="0" x2="-9" y2="-4" stroke="#E03D0E" strokeWidth="1.2" strokeOpacity="0.75" />
+        <line x1="-4" y1="0" x2="-9" y2=" 4" stroke="#E03D0E" strokeWidth="1.2" strokeOpacity="0.75" />
+        {/* Nose highlight dot */}
+        <circle cx="12" cy="0" r="1.4" fill="white" fillOpacity="0.75" />
 
-        {/* Nose highlight */}
-        <circle cx="0" cy="-9" r="1.2" fill="white" fillOpacity="0.7">
-          <animateMotion
-            dur="3s"
-            repeatCount="indefinite"
-            rotate="auto"
-            calcMode="spline"
-            keyTimes="0;1"
-            keySplines="0.42 0 0.58 1"
-          >
-            <mpath href={`#${pathId}`} />
-          </animateMotion>
-        </circle>
-
-        {/* Center crease line */}
-        <line x1="0" y1="-9" x2="0" y2="7" stroke="white" strokeWidth="0.6" strokeOpacity="0.25">
-          <animateMotion
-            dur="3s"
-            repeatCount="indefinite"
-            rotate="auto"
-            calcMode="spline"
-            keyTimes="0;1"
-            keySplines="0.42 0 0.58 1"
-          >
-            <mpath href={`#${pathId}`} />
-          </animateMotion>
-        </line>
+        {/* Single animateMotion on the group → nose follows path perfectly */}
+        <animateMotion
+          dur="3.2s"
+          repeatCount="1"
+          fill="freeze"
+          rotate="auto"
+          calcMode="spline"
+          keyTimes="0;1"
+          keySplines="0.4 0 0.15 1"
+        >
+          <mpath href={`#${pathId}`} />
+        </animateMotion>
       </g>
     </svg>
   )
