@@ -79,12 +79,47 @@ export function SpaceSection() {
         </div>
 
 
-        {/* ── Image strip ────────────────────────────────────── */}
+        {/* ── Images — 2×2 grid on mobile, horizontal strip on md+ ── */}
+
+        {/* Mobile: 2×2 grid */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 0.5 }}
-          className="flex overflow-x-auto hide-scrollbar -mx-6 md:mx-0 mb-px"
+          className="grid grid-cols-2 gap-px bg-steel md:hidden mb-px"
+        >
+          {spaceImages.map((img, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ delay: 0.35 + i * 0.08 }}
+              className="relative aspect-square overflow-hidden group"
+            >
+              <Image
+                src={img.src}
+                alt={img.label}
+                fill
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                sizes="50vw"
+              />
+              <div className="absolute inset-0 bg-void/50 group-hover:bg-void/25 transition-colors duration-500" />
+              <div className="absolute top-0 left-0 w-0 h-0.5 bg-ember group-hover:w-full transition-all duration-500" />
+              <div className="absolute bottom-0 left-0 right-0 p-3">
+                <p className="text-chalk tracking-wider" style={{ fontFamily: "var(--font-bebas)", fontSize: "1rem" }}>
+                  {img.label}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Desktop: horizontal strip */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.5 }}
+          className="hidden md:flex mb-px"
         >
           {spaceImages.map((img, i) => (
             <motion.div
@@ -92,7 +127,7 @@ export function SpaceSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.4 + i * 0.1 }}
-              className="relative shrink-0 w-[70vw] sm:w-[45vw] md:flex-1 overflow-hidden group"
+              className="relative flex-1 overflow-hidden group"
               style={{ height: "clamp(220px, 35vw, 420px)" }}
             >
               <Image
@@ -100,7 +135,7 @@ export function SpaceSection() {
                 alt={img.label}
                 fill
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                sizes="(max-width: 768px) 70vw, 25vw"
+                sizes="25vw"
               />
               <div className="absolute inset-0 bg-void/65 group-hover:bg-void/35 transition-colors duration-500" />
               <div className="absolute top-0 left-0 w-0 h-0.5 bg-ember group-hover:w-full transition-all duration-500" />
