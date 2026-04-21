@@ -4,6 +4,7 @@ import { useRef } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { ArrowDown } from "lucide-react"
 import Image from "next/image"
+import { PaperPlaneLogo } from "@/components/paper-plane-logo"
 
 const HERO_IMAGE = "/hero.png"
 
@@ -84,16 +85,18 @@ export function Hero() {
         style={{ y: textY, opacity }}
         className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 md:px-16"
       >
-        {/* Overline bar */}
+        {/* Logo plane animation */}
         <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: 44 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="h-px bg-ember mb-6"
-        />
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-2"
+        >
+          <PaperPlaneLogo size={52} />
+        </motion.div>
 
         {/* PULQUI — screen-filling */}
-        <div className="overflow-hidden" style={{ paddingTop: "clamp(1.6rem, 3.2vw, 3.2rem)" }}>
+        <div className="overflow-hidden">
           <motion.h1
             initial={{ y: "110%" }}
             animate={{ y: 0 }}
@@ -104,31 +107,7 @@ export function Hero() {
               fontSize: "clamp(5rem, 22vw, 22rem)",
             }}
           >
-            PULQU<span className="relative inline-block">
-              <motion.span
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 1.1 }}
-                className="absolute text-ember pointer-events-none"
-                style={{
-                  bottom: "100%",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  width: "0.42em",
-                  height: "0.42em",
-                  marginBottom: "0.06em",
-                }}
-                aria-hidden="true"
-              >
-                <svg viewBox="0 0 44 52" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-                  <path d="M22 2 L2 42 L22 30 Z" fill="currentColor" fillOpacity="0.95"/>
-                  <path d="M22 2 L42 42 L22 30 Z" fill="currentColor" fillOpacity="0.6"/>
-                  <line x1="22" y1="2" x2="22" y2="48" stroke="currentColor" strokeWidth="1.2" strokeOpacity="0.3"/>
-                  <path d="M22 30 L15 50 L22 44 L29 50 Z" fill="currentColor" fillOpacity="0.85"/>
-                </svg>
-              </motion.span>
-              I
-            </span>
+            PULQUI
           </motion.h1>
         </div>
 
