@@ -85,15 +85,16 @@ export function Hero() {
         style={{ y: textY, opacity }}
         className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 md:px-16"
       >
-        {/* PULQUI + plane — stacked in a relative container */}
-        <div className="relative flex flex-col items-center">
-          {/* Plane arc — same width as the title, sits just above it */}
+        {/* PULQUI + plane — outer div shrinks to text width so SVG aligns P→I */}
+        <div className="relative" style={{ width: "max-content", maxWidth: "100%" }}>
+
+          {/* Plane — absolute, sits just above the text, same width */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.1 }}
-            className="w-full"
-            style={{ height: "clamp(40px, 7.5vw, 100px)" }}
+            className="absolute left-0 right-0"
+            style={{ bottom: "92%", height: "clamp(28px, 5.2vw, 70px)" }}
           >
             <PaperPlaneLogo />
           </motion.div>

@@ -79,9 +79,6 @@ export function PaperPlaneLogo({ className }: { className?: string }) {
         <path d="M 55,0 L -38,42  L -18,0 Z" fill="#E03D0E" fillOpacity="0.58" />
         {/* Fuselage fold line */}
         <line x1="55" y1="0" x2="-38" y2="0" stroke="white" strokeWidth="1.4" strokeOpacity="0.2" />
-        {/* Tail stabilisers */}
-        <line x1="-18" y1="0" x2="-46" y2="-20" stroke="#E03D0E" strokeWidth="3" strokeOpacity="0.8" strokeLinecap="round" />
-        <line x1="-18" y1="0" x2="-46" y2=" 20" stroke="#E03D0E" strokeWidth="3" strokeOpacity="0.8" strokeLinecap="round" />
         {/* Nose highlight */}
         <circle cx="55" cy="0" r="4.5" fill="white" fillOpacity="0.8" />
 
