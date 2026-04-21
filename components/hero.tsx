@@ -93,7 +93,7 @@ export function Hero() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.1 }}
             className="w-full"
-            style={{ height: "clamp(32px, 6vw, 80px)" }}
+            style={{ height: "clamp(40px, 7.5vw, 100px)" }}
           >
             <PaperPlaneLogo />
           </motion.div>
