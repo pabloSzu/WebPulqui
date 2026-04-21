@@ -93,7 +93,7 @@ export function Hero() {
         />
 
         {/* PULQUI — screen-filling */}
-        <div className="overflow-hidden">
+        <div className="overflow-hidden" style={{ paddingTop: "clamp(1.6rem, 3.2vw, 3.2rem)" }}>
           <motion.h1
             initial={{ y: "110%" }}
             animate={{ y: 0 }}
@@ -105,23 +105,28 @@ export function Hero() {
             }}
           >
             PULQU<span className="relative inline-block">
-              {/* Paper airplane above the I */}
-              <span
-                className="absolute left-1/2 -translate-x-1/2 text-ember"
-                style={{ top: "-0.55em", width: "0.45em", height: "0.45em" }}
+              <motion.span
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 1.1 }}
+                className="absolute text-ember pointer-events-none"
+                style={{
+                  bottom: "100%",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  width: "0.42em",
+                  height: "0.42em",
+                  marginBottom: "0.06em",
+                }}
                 aria-hidden="true"
               >
-                <svg viewBox="0 0 44 52" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-                  {/* Left wing */}
-                  <path d="M22 2 L2 42 L22 30 Z" fill="currentColor" fillOpacity="0.9"/>
-                  {/* Right wing */}
-                  <path d="M22 2 L42 42 L22 30 Z" fill="currentColor" fillOpacity="0.65"/>
-                  {/* Center crease */}
-                  <line x1="22" y1="2" x2="22" y2="48" stroke="currentColor" strokeWidth="1" strokeOpacity="0.35"/>
-                  {/* Tail fins */}
-                  <path d="M22 30 L15 50 L22 44 L29 50 Z" fill="currentColor" fillOpacity="0.8"/>
+                <svg viewBox="0 0 44 52" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                  <path d="M22 2 L2 42 L22 30 Z" fill="currentColor" fillOpacity="0.95"/>
+                  <path d="M22 2 L42 42 L22 30 Z" fill="currentColor" fillOpacity="0.6"/>
+                  <line x1="22" y1="2" x2="22" y2="48" stroke="currentColor" strokeWidth="1.2" strokeOpacity="0.3"/>
+                  <path d="M22 30 L15 50 L22 44 L29 50 Z" fill="currentColor" fillOpacity="0.85"/>
                 </svg>
-              </span>
+              </motion.span>
               I
             </span>
           </motion.h1>
