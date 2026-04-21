@@ -3,95 +3,105 @@
 import { useId } from "react"
 import { motion } from "framer-motion"
 
-// Wide oval path — starts bottom-center, sweeps right, arcs over the top,
-// curves back left and returns exactly to the start.
-// Tangent at start points RIGHT (+X), so with rotate="auto" the nose faces forward.
-const PATH = "M 100 158 C 175 158 188 95 188 65 C 188 15 12 15 12 65 C 12 95 25 158 100 158"
+// Arc from left (P) to right (I) — peaks in the center above the letters.
+// Tangent at start points up-right so rotate="auto" faces the nose forward.
+const PATH = "M 28 118 C 160 18 400 18 532 118"
 
-export function PaperPlaneLogo({ size = 110 }: { size?: number }) {
-  const uid      = useId().replace(/[^a-z0-9]/gi, "")
-  const pathId   = `pl-p-${uid}`
-  const glowId   = `pl-g-${uid}`
+export function PaperPlaneLogo({ className }: { className?: string }) {
+  const uid       = useId().replace(/[^a-z0-9]/gi, "")
+  const pathId    = `pl-p-${uid}`
+  const trailGlow = `pl-tg-${uid}`
   const planeGlow = `pl-pg-${uid}`
-  const h        = Math.round(size * 170 / 200)
 
   return (
     <svg
-      viewBox="0 0 200 170"
-      width={size}
-      height={h}
+      viewBox="0 0 560 136"
+      width="100%"
+      height="100%"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
     >
       <defs>
-        {/* Reference path */}
         <path id={pathId} d={PATH} />
 
         {/* Trail glow */}
-        <filter id={glowId} x="-25%" y="-25%" width="150%" height="150%">
-          <feGaussianBlur stdDeviation="3" in="SourceGraphic" result="coloredBlur" />
+        <filter id={trailGlow} x="-10%" y="-40%" width="120%" height="180%">
+          <feGaussianBlur stdDeviation="4" in="SourceGraphic" result="b" />
           <feMerge>
-            <feMergeNode in="coloredBlur" />
+            <feMergeNode in="b" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
 
         {/* Plane glow */}
-        <filter id={planeGlow} x="-80%" y="-80%" width="260%" height="260%">
-          <feGaussianBlur stdDeviation="2.5" in="SourceGraphic" result="coloredBlur" />
+        <filter id={planeGlow} x="-120%" y="-120%" width="340%" height="340%">
+          <feGaussianBlur stdDeviation="5" in="SourceGraphic" result="b" />
           <feMerge>
-            <feMergeNode in="coloredBlur" />
+            <feMergeNode in="b" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
       </defs>
 
-      {/* Ghost path — full shape always faintly visible */}
-      <use href={`#${pathId}`} stroke="#E03D0E" strokeWidth="1" fill="none" opacity="0.08" />
+      {/* Ghost path — faint full arc always visible */}
+      <use href={`#${pathId}`} stroke="#E03D0E" strokeWidth="1.5" fill="none" opacity="0.07" />
 
-      {/* Animated glowing trail — draws once, stays */}
+      {/* Animated glowing trail — draws once and stays */}
       <motion.path
         d={PATH}
         stroke="#E03D0E"
-        strokeWidth="2"
+        strokeWidth="2.5"
         strokeLinecap="round"
         fill="none"
-        filter={`url(#${glowId})`}
+        filter={`url(#${trailGlow})`}
         initial={{ pathLength: 0, opacity: 0 }}
         animate={{ pathLength: 1, opacity: 1 }}
         transition={{
-          pathLength: { duration: 3.2, ease: [0.4, 0, 0.15, 1] },
-          opacity:    { duration: 0.4 },
+          pathLength: { duration: 2.8, ease: [0.4, 0, 0.15, 1], delay: 0.15 },
+          opacity:    { duration: 0.3, delay: 0.15 },
         }}
       />
 
       {/*
-        Paper airplane viewed from top — nose points RIGHT (+X).
-        rotate="auto" aligns +X of the element with the direction of travel,
-        so the nose always faces forward along the curve.
-
-        Shape:
-          Nose:        (12,  0)
-          Top wing:    (-8, -9)
-          Tail notch:  (-4,  0)
-          Bottom wing: (-8,  9)
+        Paper airplane — 5× scale, pointing RIGHT (+X) so rotate="auto" works.
+        Nose:         ( 55,   0)
+        Top wing tip: (-38, -42)
+        Tail notch:   (-18,   0)
+        Bot wing tip: (-38,  42)
+        Stabiliser L: (-18,  0) → (-45, -18)
+        Stabiliser R: (-18,  0) → (-45,  18)
       */}
       <g filter={`url(#${planeGlow})`}>
-        {/* Top wing — solid */}
-        <path d="M 12,0 L -8,-9 L -4,0 Z" fill="#E03D0E" fillOpacity="0.95" />
+        {/* Top wing */}
+        <path
+          d="M 55,0 L -38,-42 L -18,0 Z"
+          fill="#E03D0E"
+          fillOpacity="0.95"
+        />
         {/* Bottom wing — slightly dim for depth */}
-        <path d="M 12,0 L -8,9 L -4,0 Z"  fill="#E03D0E" fillOpacity="0.6"  />
-        {/* Fuselage center fold */}
-        <line x1="12" y1="0" x2="-8" y2="0" stroke="#ffffff" strokeWidth="0.7" strokeOpacity="0.25" />
+        <path
+          d="M 55,0 L -38,42 L -18,0 Z"
+          fill="#E03D0E"
+          fillOpacity="0.58"
+        />
+        {/* Center fuselage fold */}
+        <line
+          x1="55" y1="0" x2="-38" y2="0"
+          stroke="white" strokeWidth="1.5" strokeOpacity="0.22"
+        />
         {/* Tail stabilisers */}
-        <line x1="-4" y1="0" x2="-9" y2="-4" stroke="#E03D0E" strokeWidth="1.2" strokeOpacity="0.75" />
-        <line x1="-4" y1="0" x2="-9" y2=" 4" stroke="#E03D0E" strokeWidth="1.2" strokeOpacity="0.75" />
-        {/* Nose highlight dot */}
-        <circle cx="12" cy="0" r="1.4" fill="white" fillOpacity="0.75" />
+        <line x1="-18" y1="0" x2="-46" y2="-20"
+          stroke="#E03D0E" strokeWidth="3" strokeOpacity="0.8" strokeLinecap="round" />
+        <line x1="-18" y1="0" x2="-46" y2=" 20"
+          stroke="#E03D0E" strokeWidth="3" strokeOpacity="0.8" strokeLinecap="round" />
+        {/* Nose highlight */}
+        <circle cx="55" cy="0" r="4.5" fill="white" fillOpacity="0.8" />
 
-        {/* Single animateMotion on the group → nose follows path perfectly */}
+        {/* Single animateMotion on the whole group */}
         <animateMotion
-          dur="3.2s"
+          dur="2.8s"
+          begin="0.15s"
           repeatCount="1"
           fill="freeze"
           rotate="auto"

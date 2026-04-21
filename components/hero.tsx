@@ -85,31 +85,34 @@ export function Hero() {
         style={{ y: textY, opacity }}
         className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 md:px-16"
       >
-        {/* Logo plane animation */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mb-3"
-          style={{ width: "clamp(80px, 14vw, 140px)" }}
-        >
-          <PaperPlaneLogo size={140} />
-        </motion.div>
-
-        {/* PULQUI — screen-filling */}
-        <div className="overflow-hidden">
-          <motion.h1
-            initial={{ y: "110%" }}
-            animate={{ y: 0 }}
-            transition={{ duration: 1.0, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="leading-[0.88] tracking-tight text-white text-center drop-shadow-2xl"
-            style={{
-              fontFamily: "var(--font-bebas)",
-              fontSize: "clamp(5rem, 22vw, 22rem)",
-            }}
+        {/* PULQUI + plane — stacked in a relative container */}
+        <div className="relative flex flex-col items-center">
+          {/* Plane arc — same width as the title, sits just above it */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="w-full"
+            style={{ height: "clamp(32px, 6vw, 80px)" }}
           >
-            PULQUI
-          </motion.h1>
+            <PaperPlaneLogo />
+          </motion.div>
+
+          {/* PULQUI title */}
+          <div className="overflow-hidden">
+            <motion.h1
+              initial={{ y: "110%" }}
+              animate={{ y: 0 }}
+              transition={{ duration: 1.0, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="leading-[0.88] tracking-tight text-white text-center drop-shadow-2xl"
+              style={{
+                fontFamily: "var(--font-bebas)",
+                fontSize: "clamp(5rem, 22vw, 22rem)",
+              }}
+            >
+              PULQUI
+            </motion.h1>
+          </div>
         </div>
 
         {/* Subtitle */}
