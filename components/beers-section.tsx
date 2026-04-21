@@ -108,14 +108,14 @@ export function BeersSection() {
             >
               {/* Top color bar */}
               <div
-                className="absolute top-0 left-0 right-0 h-[3px] transition-all duration-500 group-hover:h-[5px]"
+                className="absolute top-0 left-0 right-0 h-0.75 transition-all duration-500 group-hover:h-1.25"
                 style={{ backgroundColor: beer.accentColor }}
               />
 
               {/* ABV — large background number */}
               <div
                 className="text-steel/25 leading-none mb-5 transition-colors duration-300 group-hover:text-steel/40"
-                style={{ fontFamily: "var(--font-bebas)", fontSize: "3.5rem" }}
+                style={{ fontFamily: "var(--font-bebas)", fontSize: "clamp(2.5rem, 5vw, 3.5rem)" }}
               >
                 {beer.abv}
               </div>

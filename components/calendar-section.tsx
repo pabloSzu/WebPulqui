@@ -4,7 +4,8 @@ import { motion, useInView } from "framer-motion"
 import { useState, useRef } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
-const daysOfWeek = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
+const daysOfWeek    = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
+const daysOfWeekMin = ["D",   "L",   "M",   "M",   "J",   "V",   "S"]
 
 const monthNames = [
   "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
@@ -110,22 +111,23 @@ export function CalendarSection() {
 
           {/* Day headers */}
           <div className="grid grid-cols-7 mb-2">
-            {daysOfWeek.map((d) => (
+            {daysOfWeek.map((d, i) => (
               <div
                 key={d}
                 className="text-center py-2 text-dust"
-                style={{ fontFamily: "var(--font-space-mono)", fontSize: "10px", letterSpacing: "0.15em" }}
+                style={{ fontFamily: "var(--font-space-mono)", fontSize: "10px", letterSpacing: "0.1em" }}
               >
-                {d}
+                <span className="hidden sm:inline">{d}</span>
+                <span className="sm:hidden">{daysOfWeekMin[i]}</span>
               </div>
             ))}
           </div>
 
           {/* Day cells */}
-          <div className="grid grid-cols-7 gap-px bg-steel">
+          <div className="grid grid-cols-7 gap-px bg-steel" style={{ gridAutoRows: "minmax(2.75rem, 1fr)" }}>
             {days.map((day, idx) => {
               if (day === null) {
-                return <div key={`e-${idx}`} className="aspect-square bg-void" />
+                return <div key={`e-${idx}`} className="bg-void" />
               }
 
               const key = formatKey(day)
@@ -137,7 +139,7 @@ export function CalendarSection() {
                 <button
                   key={day}
                   onClick={() => setSelectedDate(isSelected ? null : key)}
-                  className={`aspect-square flex flex-col items-center justify-center relative transition-all duration-200 ${
+                  className={`flex flex-col items-center justify-center relative transition-all duration-200 ${
                     isSelected
                       ? "bg-ember"
                       : isToday

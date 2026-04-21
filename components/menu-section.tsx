@@ -76,18 +76,18 @@ export function MenuSection() {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 0.3 }}
-          className="flex flex-wrap gap-px bg-steel mb-px"
+          className="grid grid-cols-2 sm:flex gap-px bg-steel mb-px"
         >
           {menuCategories.map((cat) => (
             <button
               key={cat.name}
               onClick={() => setActive(cat.name)}
-              className={`flex-1 py-3 px-4 min-w-fit transition-colors duration-200 ${
+              className={`flex-1 py-4 sm:py-3 px-3 sm:px-4 transition-colors duration-200 ${
                 active === cat.name
                   ? "bg-ember text-chalk"
                   : "bg-smoke text-dust hover:text-chalk hover:bg-void"
               }`}
-              style={{ fontFamily: "var(--font-space-mono)", fontSize: "10px", letterSpacing: "0.2em" }}
+              style={{ fontFamily: "var(--font-space-mono)", fontSize: "9px", letterSpacing: "0.1em" }}
             >
               {cat.name}
             </button>
@@ -118,7 +118,7 @@ export function MenuSection() {
                   {item.name}
                 </h3>
                 <p
-                  className="text-dust mt-1.5 truncate"
+                  className="text-dust mt-1.5 line-clamp-2 sm:truncate"
                   style={{ fontFamily: "var(--font-space-mono)", fontSize: "10px", letterSpacing: "0.08em" }}
                 >
                   {item.description}

@@ -79,7 +79,7 @@ export function Navigation() {
             animate={{ opacity: 1, clipPath: "inset(0 0 0% 0)" }}
             exit={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-40 bg-void flex flex-col justify-center items-start px-12 gap-6"
+            className="fixed inset-0 z-40 bg-void flex flex-col justify-center items-start px-8 sm:px-12 gap-5 sm:gap-6"
           >
             {/* Decorative line */}
             <div className="w-10 h-px bg-ember mb-4" />
@@ -92,7 +92,7 @@ export function Navigation() {
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.1 + i * 0.07, ease: [0.16, 1, 0.3, 1] }}
-                className="text-chalk hover:text-ember transition-colors duration-200 text-5xl tracking-widest"
+                className="text-chalk hover:text-ember transition-colors duration-200 text-4xl sm:text-5xl tracking-widest"
                 style={{ fontFamily: "var(--font-bebas)" }}
               >
                 {link.label}
